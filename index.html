@@ -35,15 +35,426 @@
            class="rotating-logo"
            width="160" height="160" />
 
-      <!-- Optional headline/CTA (can change later) -->
-      <h1 style="margin-top:1.25rem;">We bring practical AI to local businesses</h1>
-      <p style="opacity:.85; max-width:48ch;">
-        Automation + custom AI tools to cut busywork, reduce costs, and move faster.
+     <section style="background-color: #1A1C1E; color: #E5E7EB; padding: 4rem 1rem; text-align: center; min-height: 60vh; display: flex; flex-direction: column; justify-content: center; align-items: center; max-width: 1200px; margin: 0 auto;">
+  <header style="max-width: 800px;">
+    <h1 style="font-size: clamp(2.5rem, 5vw, 4rem); font-weight: 700; line-height: 1.1; margin: 0 0 1.5rem 0; color: #E5E7EB;">
+      We bring practical AI to local businesses.
+    </h1>
+    
+    <p style="font-size: clamp(1.125rem, 2.5vw, 1.5rem); line-height: 1.5; margin: 0 0 3rem 0; color: #9CA3AF; max-width: 600px; margin-left: auto; margin-right: auto;">
+      Automation + custom AI tools to cut busywork, reduce costs, and move faster.
+    </p>
+  </header>
+  
+  <div style="display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center; align-items: center;">
+    <a href="#contact" 
+       style="background-color: var(--accent, #00aeef); color: white; padding: 0.875rem 2rem; border-radius: 8px; text-decoration: none; font-weight: 600; font-size: 1.125rem; transition: all 0.2s ease; display: inline-block; border: 2px solid var(--accent, #00aeef);"
+       onmouseover="this.style.backgroundColor='#0099d4'; this.style.borderColor='#0099d4';"
+       onmouseout="this.style.backgroundColor='var(--accent, #00aeef)'; this.style.borderColor='var(--accent, #00aeef)';"
+       onfocus="this.style.outline='2px solid var(--accent, #00aeef)'; this.style.outlineOffset='2px';"
+       onblur="this.style.outline='none';">
+      Book a free consult
+    </a>
+    
+    <a href="#services" 
+       style="color: var(--accent, #00aeef); padding: 0.875rem 2rem; border-radius: 8px; text-decoration: none; font-weight: 600; font-size: 1.125rem; transition: all 0.2s ease; display: inline-block; border: 2px solid transparent;"
+       onmouseover="this.style.textDecoration='underline'; this.style.color='#0099d4';"
+       onmouseout="this.style.textDecoration='none'; this.style.color='var(--accent, #00aeef)';"
+       onfocus="this.style.outline='2px solid var(--accent, #00aeef)'; this.style.outlineOffset='2px';"
+       onblur="this.style.outline='none';">
+      See services
+    </a>
+  </div>
+</section>
+      <section id="services" style="background-color: #1A1C1E; color: #E5E7EB; padding: 4rem 1rem;">
+  <div style="max-width: 1200px; margin: 0 auto;">
+    <header style="text-align: center; margin-bottom: 3rem;">
+      <h2 style="font-size: clamp(2rem, 4vw, 3rem); font-weight: 700; margin: 0 0 1rem 0; color: #E5E7EB;">
+        Services
+      </h2>
+      <p style="font-size: 1.125rem; color: #9CA3AF; max-width: 600px; margin: 0 auto;">
+        Practical AI solutions designed for local businesses
       </p>
-      <p style="margin-top:1rem;">
-        <a class="btn-accent" href="#contact">Book a free consult →</a>
+    </header>
+
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem;">
+      <article style="background-color: #262626; border: 1px solid #374151; border-radius: 8px; padding: 2rem; transition: all 0.2s ease;"
+               onmouseover="this.style.borderColor='var(--accent, #00aeef)'; this.style.transform='translateY(-2px)';"
+               onmouseout="this.style.borderColor='#374151'; this.style.transform='translateY(0)';">
+        <h3 style="font-size: 1.5rem; font-weight: 600; margin: 0 0 1rem 0; color: #E5E7EB;">
+          AI Process Automation
+        </h3>
+        <p style="color: #9CA3AF; line-height: 1.6; margin: 0 0 1.5rem 0;">
+          Automate repetitive tasks like data entry, reporting, inbox triage, and scheduling to free up your team's time.
+        </p>
+        <a href="#contact" 
+           style="color: var(--accent, #00aeef); text-decoration: none; font-weight: 500; font-size: 0.875rem; transition: all 0.2s ease;"
+           onmouseover="this.style.textDecoration='underline'; this.style.color='#0099d4';"
+           onmouseout="this.style.textDecoration='none'; this.style.color='var(--accent, #00aeef)';"
+           onfocus="this.style.outline='2px solid var(--accent, #00aeef)'; this.style.outlineOffset='2px';"
+           onblur="this.style.outline='none';">
+          Learn more →
+        </a>
+      </article>
+
+      <article style="background-color: #262626; border: 1px solid #374151; border-radius: 8px; padding: 2rem; transition: all 0.2s ease;"
+               onmouseover="this.style.borderColor='var(--accent, #00aeef)'; this.style.transform='translateY(-2px)';"
+               onmouseout="this.style.borderColor='#374151'; this.style.transform='translateY(0)';">
+        <h3 style="font-size: 1.5rem; font-weight: 600; margin: 0 0 1rem 0; color: #E5E7EB;">
+          Custom AI Assistants
+        </h3>
+        <p style="color: #9CA3AF; line-height: 1.6; margin: 0 0 1.5rem 0;">
+          Internal knowledge bots, customer support chat, and lead qualification systems tailored to your business.
+        </p>
+        <a href="#contact" 
+           style="color: var(--accent, #00aeef); text-decoration: none; font-weight: 500; font-size: 0.875rem; transition: all 0.2s ease;"
+           onmouseover="this.style.textDecoration='underline'; this.style.color='#0099d4';"
+           onmouseout="this.style.textDecoration='none'; this.style.color='var(--accent, #00aeef)';"
+           onfocus="this.style.outline='2px solid var(--accent, #00aeef)'; this.style.outlineOffset='2px';"
+           onblur="this.style.outline='none';">
+          Learn more →
+        </a>
+      </article>
+
+      <article style="background-color: #262626; border: 1px solid #374151; border-radius: 8px; padding: 2rem; transition: all 0.2s ease;"
+               onmouseover="this.style.borderColor='var(--accent, #00aeef)'; this.style.transform='translateY(-2px)';"
+               onmouseout="this.style.borderColor='#374151'; this.style.transform='translateY(0)';">
+        <h3 style="font-size: 1.5rem; font-weight: 600; margin: 0 0 1rem 0; color: #E5E7EB;">
+          Consulting & Roadmapping
+        </h3>
+        <p style="color: #9CA3AF; line-height: 1.6; margin: 0 0 1.5rem 0;">
+          Discovery sessions, opportunity analysis, and implementation plans with clear ROI projections.
+        </p>
+        <a href="#contact" 
+           style="color: var(--accent, #00aeef); text-decoration: none; font-weight: 500; font-size: 0.875rem; transition: all 0.2s ease;"
+           onmouseover="this.style.textDecoration='underline'; this.style.color='#0099d4';"
+           onmouseout="this.style.textDecoration='none'; this.style.color='var(--accent, #00aeef)';"
+           onfocus="this.style.outline='2px solid var(--accent, #00aeef)'; this.style.outlineOffset='2px';"
+           onblur="this.style.outline='none';">
+          Learn more →
+        </a>
+      </article>
+
+      <article style="background-color: #262626; border: 1px solid #374151; border-radius: 8px; padding: 2rem; transition: all 0.2s ease;"
+               onmouseover="this.style.borderColor='var(--accent, #00aeef)'; this.style.transform='translateY(-2px)';"
+               onmouseout="this.style.borderColor='#374151'; this.style.transform='translateY(0)';">
+        <h3 style="font-size: 1.5rem; font-weight: 600; margin: 0 0 1rem 0; color: #E5E7EB;">
+          Training & Enablement
+        </h3>
+        <p style="color: #9CA3AF; line-height: 1.6; margin: 0 0 1.5rem 0;">
+          Workshops, team playbooks, and ongoing office hours to ensure successful AI adoption.
+        </p>
+        <a href="#contact" 
+           style="color: var(--accent, #00aeef); text-decoration: none; font-weight: 500; font-size: 0.875rem; transition: all 0.2s ease;"
+           onmouseover="this.style.textDecoration='underline'; this.style.color='#0099d4';"
+           onmouseout="this.style.textDecoration='none'; this.style.color='var(--accent, #00aeef)';"
+           onfocus="this.style.outline='2px solid var(--accent, #00aeef)'; this.style.outlineOffset='2px';"
+           onblur="this.style.outline='none';">
+          Learn more →
+        </a>
+      </article>
+    </div>
+  </div>
+</section>
+      <section id="process" style="background-color: #1A1C1E; color: #E5E7EB; padding: 4rem 1rem;">
+  <div style="max-width: 1200px; margin: 0 auto;">
+    <header style="text-align: center; margin-bottom: 3rem;">
+      <h2 style="font-size: clamp(2rem, 4vw, 3rem); font-weight: 700; margin: 0 0 1rem 0; color: #E5E7EB;">
+        Our Process
+      </h2>
+      <p style="font-size: 1.125rem; color: #9CA3AF; max-width: 600px; margin: 0 auto;">
+        A proven approach to implementing AI in your business
       </p>
-    </section>
+    </header>
+
+    <div style="display: flex; flex-direction: column; gap: 2rem; position: relative;">
+      <!-- Vertical line for mobile -->
+      <div style="position: absolute; left: 1rem; top: 3rem; bottom: 3rem; width: 2px; background-color: var(--accent, #00aeef); opacity: 0.3; display: block;">
+        <style>
+          @media (min-width: 768px) {
+            .timeline-line { display: none !important; }
+          }
+        </style>
+      </div>
+
+      <!-- Horizontal line for desktop -->
+      <div style="position: absolute; top: 3rem; left: 3rem; right: 3rem; height: 2px; background-color: var(--accent, #00aeef); opacity: 0.3; display: none;">
+        <style>
+          @media (min-width: 768px) {
+            .timeline-line-horizontal { display: block !important; }
+          }
+        </style>
+      </div>
+
+      <style>
+        @media (min-width: 768px) {
+          .process-container {
+            flex-direction: row !important;
+            align-items: flex-start !important;
+          }
+          .process-step {
+            flex: 1 !important;
+            text-align: center !important;
+          }
+        }
+      </style>
+
+      <div class="process-container" style="display: flex; flex-direction: column; gap: 2rem; position: relative;">
+        <article class="process-step" style="display: flex; align-items: flex-start; gap: 1rem; position: relative;">
+          <div style="width: 3rem; height: 3rem; background-color: var(--accent, #00aeef); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; color: white; font-size: 1.125rem; flex-shrink: 0; z-index: 1;">
+            1
+          </div>
+          <div style="flex: 1; padding-top: 0.25rem;">
+            <h3 style="font-size: 1.25rem; font-weight: 600; margin: 0 0 0.5rem 0; color: #E5E7EB;">
+              Discovery
+            </h3>
+            <p style="color: #9CA3AF; line-height: 1.5; margin: 0 0 0.25rem 0; font-size: 0.875rem;">
+              Free 30-minute consultation to understand your business needs and identify automation opportunities.
+            </p>
+            <span style="color: var(--accent, #00aeef); font-size: 0.75rem; font-weight: 500;">
+              FREE • 30 MIN
+            </span>
+          </div>
+        </article>
+
+        <article class="process-step" style="display: flex; align-items: flex-start; gap: 1rem; position: relative;">
+          <div style="width: 3rem; height: 3rem; background-color: var(--accent, #00aeef); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; color: white; font-size: 1.125rem; flex-shrink: 0; z-index: 1;">
+            2
+          </div>
+          <div style="flex: 1; padding-top: 0.25rem;">
+            <h3 style="font-size: 1.25rem; font-weight: 600; margin: 0 0 0.5rem 0; color: #E5E7EB;">
+              Assessment
+            </h3>
+            <p style="color: #9CA3AF; line-height: 1.5; margin: 0 0 0.25rem 0; font-size: 0.875rem;">
+              Deep dive analysis of your workflows and systems to create a detailed implementation roadmap.
+            </p>
+            <span style="color: var(--accent, #00aeef); font-size: 0.75rem; font-weight: 500;">
+              1–2 WEEKS
+            </span>
+          </div>
+        </article>
+
+        <article class="process-step" style="display: flex; align-items: flex-start; gap: 1rem; position: relative;">
+          <div style="width: 3rem; height: 3rem; background-color: var(--accent, #00aeef); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; color: white; font-size: 1.125rem; flex-shrink: 0; z-index: 1;">
+            3
+          </div>
+          <div style="flex: 1; padding-top: 0.25rem;">
+            <h3 style="font-size: 1.25rem; font-weight: 600; margin: 0 0 0.5rem 0; color: #E5E7EB;">
+              Build
+            </h3>
+            <p style="color: #9CA3AF; line-height: 1.5; margin: 0 0 0.25rem 0; font-size: 0.875rem;">
+              Develop and deploy your pilot automation or AI assistant with iterative testing and refinement.
+            </p>
+            <span style="color: var(--accent, #00aeef); font-size: 0.75rem; font-weight: 500;">
+              PILOT PHASE
+            </span>
+          </div>
+        </article>
+
+        <article class="process-step" style="display: flex; align-items: flex-start; gap: 1rem; position: relative;">
+          <div style="width: 3rem; height: 3rem; background-color: var(--accent, #00aeef); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; color: white; font-size: 1.125rem; flex-shrink: 0; z-index: 1;">
+            4
+          </div>
+          <div style="flex: 1; padding-top: 0.25rem;">
+            <h3 style="font-size: 1.25rem; font-weight: 600; margin: 0 0 0.5rem 0; color: #E5E7EB;">
+              Train & Measure
+            </h3>
+            <p style="color: #9CA3AF; line-height: 1.5; margin: 0 0 0.25rem 0; font-size: 0.875rem;">
+              Team training, adoption support, and KPI tracking to ensure successful implementation and ROI.
+            </p>
+            <span style="color: var(--accent, #00aeef); font-size: 0.75rem; font-weight: 500;">
+              ONGOING SUPPORT
+            </span>
+          </div>
+        </article>
+      </div>
+    </div>
+  </div>
+</section>
+      <section id="faq" style="background-color: #1A1C1E; color: #E5E7EB; padding: 4rem 1rem;">
+  <div style="max-width: 800px; margin: 0 auto;">
+    <header style="text-align: center; margin-bottom: 3rem;">
+      <h2 style="font-size: clamp(2rem, 4vw, 3rem); font-weight: 700; margin: 0 0 1rem 0; color: #E5E7EB;">
+        Frequently Asked Questions
+      </h2>
+      <p style="font-size: 1.125rem; color: #9CA3AF;">
+        Common questions about our AI implementation process
+      </p>
+    </header>
+
+    <div style="display: flex; flex-direction: column; gap: 1rem;">
+      <details style="background-color: #262626; border: 1px solid #374151; border-radius: 8px; padding: 1.5rem; transition: all 0.2s ease;"
+               onmouseover="this.style.borderColor='var(--accent, #00aeef)'"
+               onmouseout="this.style.borderColor='#374151'">
+        <summary style="font-size: 1.125rem; font-weight: 600; color: #E5E7EB; cursor: pointer; list-style: none; display: flex; justify-content: space-between; align-items: center;"
+                 onfocus="this.style.outline='2px solid var(--accent, #00aeef)'; this.style.outlineOffset='2px';"
+                 onblur="this.style.outline='none';">
+          What are typical project timelines?
+          <span style="color: var(--accent, #00aeef); font-size: 1.5rem; transition: transform 0.2s ease;">+</span>
+        </summary>
+        <p style="color: #9CA3AF; line-height: 1.6; margin: 1rem 0 0 0; padding-top: 1rem; border-top: 1px solid #374151;">
+          Most pilots ship in 2–4 weeks. This includes discovery, development, testing, and initial deployment with your team.
+        </p>
+      </details>
+
+      <details style="background-color: #262626; border: 1px solid #374151; border-radius: 8px; padding: 1.5rem; transition: all 0.2s ease;"
+               onmouseover="this.style.borderColor='var(--accent, #00aeef)'"
+               onmouseout="this.style.borderColor='#374151'">
+        <summary style="font-size: 1.125rem; font-weight: 600; color: #E5E7EB; cursor: pointer; list-style: none; display: flex; justify-content: space-between; align-items: center;"
+                 onfocus="this.style.outline='2px solid var(--accent, #00aeef)'; this.style.outlineOffset='2px';"
+                 onblur="this.style.outline='none';">
+          How does pricing work?
+          <span style="color: var(--accent, #00aeef); font-size: 1.5rem; transition: transform 0.2s ease;">+</span>
+        </summary>
+        <p style="color: #9CA3AF; line-height: 1.6; margin: 1rem 0 0 0; padding-top: 1rem; border-top: 1px solid #374151;">
+          Fixed-scope pilots with transparent pricing. You'll receive a clear proposal with deliverables and timeline after our discovery session.
+        </p>
+      </details>
+
+      <details style="background-color: #262626; border: 1px solid #374151; border-radius: 8px; padding: 1.5rem; transition: all 0.2s ease;"
+               onmouseover="this.style.borderColor='var(--accent, #00aeef)'"
+               onmouseout="this.style.borderColor='#374151'">
+        <summary style="font-size: 1.125rem; font-weight: 600; color: #E5E7EB; cursor: pointer; list-style: none; display: flex; justify-content: space-between; align-items: center;"
+                 onfocus="this.style.outline='2px solid var(--accent, #00aeef)'; this.style.outlineOffset='2px';"
+                 onblur="this.style.outline='none';">
+          How do you handle data privacy?
+          <span style="color: var(--accent, #00aeef); font-size: 1.5rem; transition: transform 0.2s ease;">+</span>
+        </summary>
+        <p style="color: #9CA3AF; line-height: 1.6; margin: 1rem 0 0 0; padding-top: 1rem; border-top: 1px solid #374151;">
+          Your data stays yours. We use secure, enterprise-grade providers and limit data retention to only what's necessary for the project.
+        </p>
+      </details>
+
+      <details style="background-color: #262626; border: 1px solid #374151; border-radius: 8px; padding: 1.5rem; transition: all 0.2s ease;"
+               onmouseover="this.style.borderColor='var(--accent, #00aeef)'"
+               onmouseout="this.style.borderColor='#374151'">
+        <summary style="font-size: 1.125rem; font-weight: 600; color: #E5E7EB; cursor: pointer; list-style: none; display: flex; justify-content: space-between; align-items: center;"
+                 onfocus="this.style.outline='2px solid var(--accent, #00aeef)'; this.style.outlineOffset='2px';"
+                 onblur="this.style.outline='none';">
+          What do you need from us to get started?
+          <span style="color: var(--accent, #00aeef); font-size: 1.5rem; transition: transform 0.2s ease;">+</span>
+        </summary>
+        <p style="color: #9CA3AF; line-height: 1.6; margin: 1rem 0 0 0; padding-top: 1rem; border-top: 1px solid #374151;">
+          Access to sample documents or processes we'll be working with, and a single decision-maker who can provide feedback and approvals.
+        </p>
+      </details>
+    </div>
+  </div>
+</section>
+
+<section style="background-color: #262626; color: #E5E7EB; padding: 3rem 1rem; border-top: 1px solid #374151;">
+  <div style="max-width: 800px; margin: 0 auto; text-align: center;">
+    <h2 style="font-size: clamp(1.75rem, 3vw, 2.5rem); font-weight: 700; margin: 0 0 1.5rem 0; color: #E5E7EB;">
+      Ready to explore AI in your workflow?
+    </h2>
+    
+    <a href="#contact" 
+       style="background-color: var(--accent, #00aeef); color: white; padding: 1rem 2.5rem; border-radius: 8px; text-decoration: none; font-weight: 600; font-size: 1.125rem; transition: all 0.2s ease; display: inline-block; border: 2px solid var(--accent, #00aeef);"
+       onmouseover="this.style.backgroundColor='#0099d4'; this.style.borderColor='#0099d4'; this.style.transform='translateY(-1px)';"
+       onmouseout="this.style.backgroundColor='var(--accent, #00aeef)'; this.style.borderColor='var(--accent, #00aeef)'; this.style.transform='translateY(0)';"
+       onfocus="this.style.outline='2px solid var(--accent, #00aeef)'; this.style.outlineOffset='4px';"
+       onblur="this.style.outline='none';">
+      Book a free consult
+    </a>
+  </div>
+</section>
+      <section id="contact" style="background-color: #1A1C1E; color: #E5E7EB; padding: 4rem 1rem;">
+  <div style="max-width: 600px; margin: 0 auto;">
+    <header style="text-align: center; margin-bottom: 3rem;">
+      <h2 style="font-size: clamp(2rem, 4vw, 3rem); font-weight: 700; margin: 0 0 1rem 0; color: #E5E7EB;">
+        Get Started
+      </h2>
+      <p style="font-size: 1.125rem; color: #9CA3AF;">
+        Ready to bring practical AI to your business? Let's talk.
+      </p>
+    </header>
+
+    <form action="#" method="post" style="display: flex; flex-direction: column; gap: 1.5rem;">
+      <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+        <label for="name" style="font-weight: 500; color: #E5E7EB; font-size: 0.875rem;">
+          Name *
+        </label>
+        <input 
+          type="text" 
+          id="name" 
+          name="name" 
+          required
+          style="background-color: #262626; color: #E5E7EB; border: 1px solid #374151; border-radius: 8px; padding: 0.875rem 1rem; font-size: 1rem; transition: all 0.2s ease;"
+          onfocus="this.style.borderColor='var(--accent, #00aeef)'; this.style.boxShadow='0 0 0 2px rgba(0, 174, 239, 0.1)'; this.style.outline='2px solid var(--accent, #00aeef)'; this.style.outlineOffset='2px';"
+          onblur="this.style.borderColor='#374151'; this.style.boxShadow='none'; this.style.outline='none';"
+          placeholder="Your full name">
+      </div>
+
+      <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+        <label for="email" style="font-weight: 500; color: #E5E7EB; font-size: 0.875rem;">
+          Email *
+        </label>
+        <input 
+          type="email" 
+          id="email" 
+          name="email" 
+          required
+          style="background-color: #262626; color: #E5E7EB; border: 1px solid #374151; border-radius: 8px; padding: 0.875rem 1rem; font-size: 1rem; transition: all 0.2s ease;"
+          onfocus="this.style.borderColor='var(--accent, #00aeef)'; this.style.boxShadow='0 0 0 2px rgba(0, 174, 239, 0.1)'; this.style.outline='2px solid var(--accent, #00aeef)'; this.style.outlineOffset='2px';"
+          onblur="this.style.borderColor='#374151'; this.style.boxShadow='none'; this.style.outline='none';"
+          placeholder="your@email.com">
+      </div>
+
+      <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+        <label for="company" style="font-weight: 500; color: #E5E7EB; font-size: 0.875rem;">
+          Company
+        </label>
+        <input 
+          type="text" 
+          id="company" 
+          name="company"
+          style="background-color: #262626; color: #E5E7EB; border: 1px solid #374151; border-radius: 8px; padding: 0.875rem 1rem; font-size: 1rem; transition: all 0.2s ease;"
+          onfocus="this.style.borderColor='var(--accent, #00aeef)'; this.style.boxShadow='0 0 0 2px rgba(0, 174, 239, 0.1)'; this.style.outline='2px solid var(--accent, #00aeef)'; this.style.outlineOffset='2px';"
+          onblur="this.style.borderColor='#374151'; this.style.boxShadow='none'; this.style.outline='none';"
+          placeholder="Your company name">
+      </div>
+
+      <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+        <label for="message" style="font-weight: 500; color: #E5E7EB; font-size: 0.875rem;">
+          Message *
+        </label>
+        <textarea 
+          id="message" 
+          name="message" 
+          required
+          rows="5"
+          style="background-color: #262626; color: #E5E7EB; border: 1px solid #374151; border-radius: 8px; padding: 0.875rem 1rem; font-size: 1rem; transition: all 0.2s ease; resize: vertical; font-family: inherit;"
+          onfocus="this.style.borderColor='var(--accent, #00aeef)'; this.style.boxShadow='0 0 0 2px rgba(0, 174, 239, 0.1)'; this.style.outline='2px solid var(--accent, #00aeef)'; this.style.outlineOffset='2px';"
+          onblur="this.style.borderColor='#374151'; this.style.boxShadow='none'; this.style.outline='none';"
+          placeholder="Tell us about your business and what you'd like to automate..."></textarea>
+      </div>
+
+      <button 
+        type="submit"
+        style="background-color: var(--accent, #00aeef); color: white; border: 2px solid var(--accent, #00aeef); border-radius: 8px; padding: 1rem 2rem; font-size: 1.125rem; font-weight: 600; cursor: pointer; transition: all 0.2s ease; margin-top: 1rem;"
+        onmouseover="this.style.backgroundColor='#0099d4'; this.style.borderColor='#0099d4'; this.style.transform='translateY(-1px)';"
+        onmouseout="this.style.backgroundColor='var(--accent, #00aeef)'; this.style.borderColor='var(--accent, #00aeef)'; this.style.transform='translateY(0)';"
+        onfocus="this.style.outline='2px solid var(--accent, #00aeef)'; this.style.outlineOffset='4px';"
+        onblur="this.style.outline='none';">
+        Send Message
+      </button>
+    </form>
+
+    <div style="text-align: center; margin-top: 2rem; padding-top: 2rem; border-top: 1px solid #374151;">
+      <p style="color: #9CA3AF; font-size: 0.875rem; margin: 0 0 1rem 0;">
+        Prefer to schedule a call?
+      </p>
+      <a href="#" 
+         style="color: var(--accent, #00aeef); text-decoration: none; font-weight: 500; padding: 0.5rem 1rem; border: 1px solid var(--accent, #00aeef); border-radius: 6px; font-size: 0.875rem; transition: all 0.2s ease;"
+         onmouseover="this.style.backgroundColor='rgba(0, 174, 239, 0.1)'; this.style.textDecoration='none';"
+         onmouseout="this.style.backgroundColor='transparent'; this.style.textDecoration='none';"
+         onfocus="this.style.outline='2px solid var(--accent, #00aeef)'; this.style.outlineOffset='2px';"
+         onblur="this.style.outline='none';">
+        Book time directly
+      </a>
+    </div>
+  </div>
+</section>
   </main>
 
   <!-- Your rain script (from Step 1) -->
