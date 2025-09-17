@@ -1,0 +1,18 @@
+/* Binary Rain Effect Styles */
+#binary-rain {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: -10;
+  pointer-events: none;
+  transition: opacity 0.3s ease-out;
+}
+
+/* Respect reduced motion preference */
+@media (prefers-reduced-motion: reduce) {
+  #binary-rain {
+    display: none;
+  }
+}
