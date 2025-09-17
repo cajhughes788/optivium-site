@@ -1,1 +1,53 @@
 <canvas id="binary-rain" class="fixed inset-0 -z-10 pointer-events-none"></canvas>
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Optivium — Practical AI for Local Businesses</title>
+
+  <!-- Global styles (includes your rain + logo CSS you added in assets/css/styles.css) -->
+  <link rel="stylesheet" href="assets/css/styles.css" />
+
+  <!-- Optional: set accent variable (replace with your exact blue hex) -->
+  <style>
+    :root { --accent: #63B7FF; } /* change to your logo’s light blue */
+    html, body { background:#1A1C1E; color:#E5E7EB; margin:0; }
+    a, .btn-accent { color: var(--accent); }
+  </style>
+</head>
+<body>
+
+  <!-- Rain canvas (sits behind everything, fades/stops after first 100vh scroll) -->
+  <canvas id="binary-rain" class="fixed inset-0 -z-10 pointer-events-none"></canvas>
+
+  <main>
+    <!-- Cover: user sees only the rain first -->
+    <section id="cover" style="height:100vh;"></section>
+
+    <!-- Hero: shows right after user scrolls past the rain -->
+    <section id="hero" class="hero" aria-label="Intro">
+      <!-- Rotating logo -->
+      <!-- If your logo lives at repo root, use src="/logo.svg". If in assets/img, use src="/assets/img/logo.svg". -->
+      <img id="logo"
+           src="/assets/img/logo.svg"
+           alt="Optivium logo"
+           class="rotating-logo"
+           width="160" height="160" />
+
+      <!-- Optional headline/CTA (can change later) -->
+      <h1 style="margin-top:1.25rem;">We bring practical AI to local businesses</h1>
+      <p style="opacity:.85; max-width:48ch;">
+        Automation + custom AI tools to cut busywork, reduce costs, and move faster.
+      </p>
+      <p style="margin-top:1rem;">
+        <a class="btn-accent" href="#contact">Book a free consult →</a>
+      </p>
+    </section>
+  </main>
+
+  <!-- Your rain script (from Step 1) -->
+  <script src="assets/js/binary-rain.js"></script>
+</body>
+</html>
+
