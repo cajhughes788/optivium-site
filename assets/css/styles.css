@@ -16,47 +16,7 @@
     display: none;
   }
 }
-/* Hero section positioning */
-.hero {
-  position: relative;
-  z-index: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 100vh;
-}
 
-/* Rotating logo styles */
-.rotating-logo {
-  width: 120px;
-  height: 120px;
-  animation: rotate-slow 18s linear infinite;
-}
-
-/* Pause animation on hover/focus */
-.rotating-logo:hover,
-.rotating-logo:focus {
-  animation-play-state: paused;
-}
-
-/* Rotation keyframes */
-@keyframes rotate-slow {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-/* Respect reduced motion preferences */
-@media (prefers-reduced-motion: reduce) {
-  .rotating-logo {
-    animation: none;
-  }
-}
-
-<style>
 :root {
   --background: #1A1C1E;
   --foreground: #E5E7EB;
@@ -263,4 +223,14 @@ blockquote {
   border-color: var(--accent);
   background-color: var(--accent-light);
 }
-</style>
+/* hero layout */
+.hero{position:relative;z-index:1;padding:6rem 1rem 3rem;text-align:center;}
+
+/* rotating logo */
+.rotating-logo{display:block;margin:0 auto 1.25rem;width:160px;height:160px;animation:spin-slow 18s linear infinite;}
+@keyframes spin-slow{to{transform:rotate(360deg);}}
+.rotating-logo:hover,.rotating-logo:focus{animation-play-state:paused;outline:2px solid var(--accent);outline-offset:4px;}
+@media (prefers-reduced-motion: reduce){.rotating-logo{animation:none;}}
+
+/* strong focus rings (sitewide) */
+a:focus-visible,button:focus-visible,input:focus-visible,textarea:focus-visible{outline:2px solid var(--accent);outline-offset:2px;}
