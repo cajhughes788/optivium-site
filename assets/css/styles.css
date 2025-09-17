@@ -55,3 +55,212 @@
     animation: none;
   }
 }
+
+<style>
+:root {
+  --background: #1A1C1E;
+  --foreground: #E5E7EB;
+  --accent: #00aeef;
+  --accent-hover: #0099d4;
+  --accent-light: rgba(0, 174, 239, 0.1);
+  --accent-border: rgba(0, 174, 239, 0.2);
+  --muted: #374151;
+  --muted-foreground: #9CA3AF;
+  --border: #374151;
+  --card: #262626;
+  --card-foreground: #E5E7EB;
+}
+
+* {
+  border-color: var(--border);
+}
+
+body {
+  background-color: var(--background);
+  color: var(--foreground);
+}
+
+/* Links */
+a {
+  color: var(--accent);
+  text-decoration: none;
+}
+
+a:hover {
+  color: var(--accent-hover);
+  text-decoration: underline;
+}
+
+a:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* Buttons */
+button, .btn, .button {
+  border-radius: 8px;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+button:focus-visible, .btn:focus-visible, .button:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+/* Primary buttons */
+.btn-primary, .button-primary, button[type="submit"], .primary {
+  background-color: var(--accent);
+  color: white;
+  border: 1px solid var(--accent);
+}
+
+.btn-primary:hover, .button-primary:hover, button[type="submit"]:hover, .primary:hover {
+  background-color: var(--accent-hover);
+  border-color: var(--accent-hover);
+}
+
+/* Outline buttons */
+.btn-outline, .button-outline, .outline {
+  background-color: transparent;
+  color: var(--accent);
+  border: 1px solid var(--accent);
+}
+
+.btn-outline:hover, .button-outline:hover, .outline:hover {
+  background-color: var(--accent-light);
+  color: var(--accent-hover);
+  border-color: var(--accent-hover);
+}
+
+/* Secondary buttons */
+.btn-secondary, .button-secondary, .secondary {
+  background-color: var(--muted);
+  color: var(--foreground);
+  border: 1px solid var(--muted);
+}
+
+.btn-secondary:hover, .button-secondary:hover, .secondary:hover {
+  background-color: var(--card);
+  border-color: var(--border);
+}
+
+/* Badges */
+.badge, .tag, .chip {
+  background-color: var(--accent-light);
+  color: var(--accent);
+  border: 1px solid var(--accent-border);
+  border-radius: 6px;
+  padding: 0.25rem 0.5rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+/* Cards */
+.card, .panel, .box {
+  background-color: var(--card);
+  color: var(--card-foreground);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+}
+
+/* Section dividers */
+hr, .divider, .separator {
+  border-color: var(--accent);
+  border-width: 1px;
+  opacity: 0.3;
+}
+
+.section-divider {
+  border-top: 2px solid var(--accent);
+  opacity: 0.5;
+}
+
+/* Form elements */
+input, textarea, select {
+  background-color: var(--card);
+  color: var(--foreground);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+}
+
+input:focus, textarea:focus, select:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 2px var(--accent-light);
+}
+
+input:focus-visible, textarea:focus-visible, select:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+/* Headings */
+h1, h2, h3, h4, h5, h6 {
+  color: var(--foreground);
+}
+
+/* Muted text */
+.text-muted, .muted, .secondary-text {
+  color: var(--muted-foreground);
+}
+
+/* Navigation */
+nav a {
+  color: var(--foreground);
+}
+
+nav a:hover, nav a.active {
+  color: var(--accent);
+}
+
+/* Tables */
+table {
+  border-color: var(--border);
+}
+
+th, td {
+  border-color: var(--border);
+}
+
+th {
+  background-color: var(--card);
+  color: var(--foreground);
+}
+
+/* Code blocks */
+code, pre {
+  background-color: var(--card);
+  color: var(--foreground);
+  border: 1px solid var(--border);
+}
+
+/* Blockquotes */
+blockquote {
+  border-left: 4px solid var(--accent);
+  background-color: var(--card);
+  color: var(--foreground);
+}
+
+/* Progress bars */
+.progress {
+  background-color: var(--muted);
+}
+
+.progress-bar {
+  background-color: var(--accent);
+}
+
+/* Alerts */
+.alert {
+  background-color: var(--card);
+  border: 1px solid var(--border);
+  color: var(--foreground);
+}
+
+.alert-info {
+  border-color: var(--accent);
+  background-color: var(--accent-light);
+}
+</style>
