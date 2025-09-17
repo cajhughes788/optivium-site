@@ -16,3 +16,42 @@
     display: none;
   }
 }
+/* Hero section positioning */
+.hero {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+}
+
+/* Rotating logo styles */
+.rotating-logo {
+  width: 120px;
+  height: 120px;
+  animation: rotate-slow 18s linear infinite;
+}
+
+/* Pause animation on hover/focus */
+.rotating-logo:hover,
+.rotating-logo:focus {
+  animation-play-state: paused;
+}
+
+/* Rotation keyframes */
+@keyframes rotate-slow {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Respect reduced motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  .rotating-logo {
+    animation: none;
+  }
+}
