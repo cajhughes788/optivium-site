@@ -233,36 +233,37 @@ a:focus-visible,button:focus-visible,input:focus-visible,textarea:focus-visible{
 .holo{
   position:relative;
   margin:0 auto 1.5rem;
-  width:min(68vw, 520px);
-  aspect-ratio:1/1;
+  width:min(90vw, 720px);       /* larger, responsive */
   display:grid;
   place-items:center;
   perspective:1200px;
 }
 
+/* overlays behind the image */
+.holo::before, .holo::after{ z-index:0; }
+.rotating-logo-3d{ position:relative; z-index:1; }
+
 /* The logo itself */
 .rotating-logo-3d{
   width:100%;
-  height:100%;
+  height:auto;                  /* keep natural aspect ratio */
   object-fit:contain;
   transform-style:preserve-3d;
-  transform-origin:center center;     /* center pivot */
-  backface-visibility:hidden;         /* avoids flicker at 90°/270° */
+  transform-origin:center center;
+  backface-visibility:hidden;
   -webkit-backface-visibility:hidden; /* Safari */
-  animation:spinY 48s linear infinite;/* slow merry-go-round */
-  filter:drop-shadow(0 8px 24px rgba(99,183,255,.25))
-         drop-shadow(0 0 80px rgba(99,183,255,.15));
+  filter:
+    drop-shadow(0 8px 24px rgba(99,183,255,.25))
+    drop-shadow(0 0 80px rgba(99,183,255,.15));
   will-change:transform;
 }
 
-/* Pause on hover/focus */
-.holo:hover .rotating-logo-3d,
-.holo:focus-within .rotating-logo-3d{ animation-play-state:paused; }
-
-/* Y-axis rotation */
-@keyframes spinY{
-  0%   { transform:rotateY(0deg); }
-  100% { transform:rotateY(360deg); }
+/* ALWAYS-VISIBLE MODE: gentle Y-axis sway (no edge-on) */
+.rotating-logo-3d.sway{ animation:swayY 20s ease-in-out infinite; }
+@keyframes swayY{
+  0%   { transform:rotateY(-22deg); }
+  50%  { transform:rotateY(22deg); }
+  100% { transform:rotateY(-22deg); }
 }
 
 /* Hologram sheen */
@@ -286,9 +287,12 @@ a:focus-visible,button:focus-visible,input:focus-visible,textarea:focus-visible{
 .holo::after{
   content:"";
   position:absolute; inset:-2%;
-  background:repeating-linear-gradient(to bottom,
-      rgba(99,183,255,.10) 0 2px,
-      rgba(99,183,255,0) 2px 6px);
+  background:repeating-linear-gradient(
+    to bottom,
+    rgba(99,183,255,.10) 0 2px,
+    rgba(99,183,255,0) 2px 6px
+  );
+  opacity:.35;
   transform:translateY(-10%);
   animation:scan 5s linear infinite;
   pointer-events:none;
@@ -301,7 +305,6 @@ a:focus-visible,button:focus-visible,input:focus-visible,textarea:focus-visible{
 
 /* Reduced motion */
 @media (prefers-reduced-motion: reduce){
-  .rotating-logo-3d{ animation:none; }
+  .rotating-logo-3d{ animation:none !important; }
   .holo::before, .holo::after{ animation:none; }
 }
-
