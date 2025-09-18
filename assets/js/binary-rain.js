@@ -111,9 +111,9 @@ class BinaryRain {
     const rect = logo.getBoundingClientRect();
     const logoTop = rect.top + window.pageYOffset;
 
-    // Fade when logo reaches ~10% from top
-    const TRIGGER = 0.10;
-    const triggerY = logoTop - window.innerHeight * TRIGGER;
+const TRIGGER = 0.75; // fade when logo is ~75% down the viewport
+const triggerY = logoTop - window.innerHeight * TRIGGER - 80; // 80px earlier
+
 
     wrapper.style.opacity = (y >= triggerY) ? '0' : '1';
   }
@@ -197,7 +197,7 @@ class BinaryRain {
 
     const beforeText = "AI isnt your enemy; its your ";
     const edgeWord   = "edge";
-    typeWriter(this.edgeEl, beforeText, edgeWord, { charDelay: 72 }); // 2× slower
+    typeWriter(this.edgeEl, beforeText, edgeWord, { charDelay: 95 }); // 2× slower
   }
 
   animate() {
