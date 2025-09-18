@@ -14,6 +14,11 @@
 
   <!-- Rain canvas (sits behind everything, fades/stops after first 100vh scroll) -->
   <canvas id="binary-rain" style="position:fixed; inset:0; z-index:-1; pointer-events:none;"></canvas>
+ <!-- Metallic typewriter line (sits above the rain) -->
+<header class="type-header" role="banner" aria-label="Intro line">
+  <p id="edge-line" class="edge-line metallic" aria-live="polite" aria-atomic="true"></p>
+</header>
+
   <main>
     <!-- Cover: user sees only the rain first -->
     <section id="cover" style="height:100vh;"></section>
