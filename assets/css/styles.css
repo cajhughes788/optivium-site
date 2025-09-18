@@ -308,18 +308,15 @@ a:focus-visible,button:focus-visible,input:focus-visible,textarea:focus-visible{
   .rotating-logo-3d{ animation:none !important; }
   .holo::before, .holo::after{ animation:none; }
 }
-
-/* === Metallic typewriter line === */
+/* === Metallic typewriter line (centered) === */
 .type-header{
   position: fixed;
-  top: env(safe-area-inset-top, 0);
-  left: 0;
-  right: 0;
-  z-index: 2;                 /* above rain, below dialogs if any */
+  inset: 0;                    /* full viewport */
+  z-index: 2;
   display: grid;
-  place-items: center;
-  padding: 1rem 0.75rem;
-  pointer-events: none;       /* text isn't interactive */
+  place-items: center;         /* centers vertically + horizontally */
+  pointer-events: none;        /* non-interactive overlay */
+  transition: opacity 0.4s ease; /* fade when logo appears */
 }
 
 .edge-line{
@@ -328,17 +325,19 @@ a:focus-visible,button:focus-visible,input:focus-visible,textarea:focus-visible{
   letter-spacing: 0.035em;
   text-transform: uppercase;
   line-height: 1.1;
-  /* iPhone-friendly responsive size */
-  font-size: clamp(0.9rem, 2.6vw + 0.5rem, 1.4rem);
-  white-space: nowrap;        /* default: one line on larger screens */
-  opacity: 0;                 /* revealed when typing starts */
+
+  /* 2× bigger than before */
+  font-size: clamp(1.8rem, 5.2vw + 1rem, 2.8rem);
+
+  white-space: nowrap;
+  opacity: 0;                  /* JS sets to 1 when typing starts */
   transition: opacity 0.35s ease;
-  pointer-events: auto;       /* allow text selection if desired */
   text-align: center;
   max-width: 92vw;
+  pointer-events: auto;        /* allow text selection if you want */
 }
 
-/* Metallic sheen */
+/* Metallic sheen (kept) */
 .metallic{
   background: linear-gradient(90deg, #d9d9d9, #8a8a8a 22%, #f5f5f5 45%, #6d6d6d 60%, #eaeaea 78%, #9a9a9a);
   background-size: 200% auto;
@@ -352,14 +351,26 @@ a:focus-visible,button:focus-visible,input:focus-visible,textarea:focus-visible{
 }
 
 @keyframes metal-sheen{
-  0%   { background-position: 0% 50%; }
+  0% { background-position: 0% 50%; }
   100% { background-position: 200% 50%; }
 }
 
-/* Blink cursor style (added by JS) */
+/* Blink cursor while typing */
 .edge-line.typing{
   border-right: 2px solid rgba(255,255,255,0.85);
-  padding-right: 4px;
+  padding-right: 6px;
+}
+
+/* Blue aura for the word "edge" (overrides metallic) */
+.edge-glow{
+  background: none !important;
+  -webkit-background-clip: initial !important;
+  background-clip: initial !important;
+  color: var(--accent, #00aeef) !important;
+  text-shadow:
+    0 0 6px rgba(0,174,239,0.85),
+    0 0 14px rgba(0,174,239,0.55),
+    0 0 28px rgba(0,174,239,0.35);
 }
 
 /* iPhone/small-screen tweaks */
