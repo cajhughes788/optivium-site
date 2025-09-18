@@ -52,6 +52,8 @@ class BinaryRain {
     this.updateStopAtHeadline();  // set initial state based on current scroll
     this.startLoop();
     this.startTypewriter();
+    this.updateTypeLineVisibility();  // set initial visibility
+
   }
 
   setupCanvas() {
@@ -81,11 +83,34 @@ class BinaryRain {
 
     window.addEventListener('scroll', () => this.updateStopAtHeadline(), { passive: true });
   }
+    window.addEventListener('scroll', () => this.updateTypeLineVisibility(), { passive: true });
 
+  
   // === Keep raining until headline, then stop instantly ===
   updateStopAtHeadline() {
     const y = window.pageYOffset;
 
+// Fade the type line as soon as the logo is reached
+updateTypeLineVisibility(){
+  if (!this.edgeEl) return;
+  const wrapper = this.edgeEl.parentElement;   // .type-header
+  if (!wrapper) return;
+
+  const y = window.pageYOffset;
+  const logo = document.getElementById('logo');
+  if (!logo) return; // if no logo, do nothing
+
+  const rect = logo.getBoundingClientRect();
+  const logoTop = rect.top + window.pageYOffset;
+
+  // When the top of the logo reaches ~10% from the top, fade the line
+  const TRIGGER = 0.10; // 10% viewport
+  const triggerY = logoTop - window.innerHeight * TRIGGER;
+
+  wrapper.style.opacity = (y >= triggerY) ? '0' : '1';
+}
+
+    
     // Where to stop: when the top of the H1 reaches ~mid viewport
     let triggerY;
     if (this.headline) {
@@ -160,17 +185,48 @@ class BinaryRain {
   if (!this.edgeEl) return;
   this._typedStarted = true;
 
-  // Use straight apostrophes for absolute UTF-8 safety across devices
-  const message = "AI isnt your enemy; its your edge";
+  // Build two nodes so we can glow just the word "edge"
+  this.edgeEl.textContent = '';         // clear
+  this.edgeEl.style.opacity = 1;        // reveal
+  this.edgeEl.classList.add('typing');  // show cursor
 
-  typeWriter(this.edgeEl, message, {
-    charDelay: 36,
-    startDelay: 120,   // tiny offset so it feels synced with first frame
-    showCursor: true
-  });
+  const beforeText = "AI isnt your enemy; its your ";
+  const edgeWord   = "edge";
+  const beforeNode = document.createTextNode('');
+  const edgeSpan   = document.createElement('span');
+  edgeSpan.id = 'edge-word';
+  edgeSpan.textContent = '';
+
+  this.edgeEl.appendChild(beforeNode);
+  this.edgeEl.appendChild(edgeSpan);
+
+  const totalLen = beforeText.length + edgeWord.length;
+
+  let i = 0;
+  const charDelay = 72; // 2× slower than your previous 36ms
+
+  const timer = setInterval(() => {
+    if (i < beforeText.length) {
+      // Fill the leading part
+      beforeNode.textContent += beforeText.charAt(i);
+    } else if (i < totalLen) {
+      // Fill the "edge" span
+      const idx = i - beforeText.length;
+      edgeSpan.textContent += edgeWord.charAt(idx);
+      // When the word is fully typed, make it glow
+      if (idx === edgeWord.length - 1) {
+        // stop the cursor soon after finishing the word
+        setTimeout(() => this.edgeEl.classList.remove('typing'), 300);
+        edgeSpan.classList.add('edge-glow');
+      }
+    } else {
+      clearInterval(timer);
+    }
+    i++;
+  }, charDelay);
 }
 
-  
+
   stopLoop() {
     if (!this.animationId) return;
     cancelAnimationFrame(this.animationId);
