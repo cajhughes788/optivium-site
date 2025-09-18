@@ -1,4 +1,4 @@
-// === Typewriter helper (glow "edge") ===
+// === Typewriter helper (glow "edge") — classic behavior ===
 function typeWriter(el, beforeText, edgeWord, { charDelay = 95 } = {}) {
   if (!el) return;
   el.textContent = '';
@@ -14,6 +14,7 @@ function typeWriter(el, beforeText, edgeWord, { charDelay = 95 } = {}) {
 
   const totalLen = beforeText.length + edgeWord.length;
   let i = 0;
+
   const timer = setInterval(() => {
     if (i < beforeText.length) {
       beforeNode.textContent += beforeText.charAt(i);
@@ -28,7 +29,7 @@ function typeWriter(el, beforeText, edgeWord, { charDelay = 95 } = {}) {
       clearInterval(timer);
     }
     i++;
-  }, charDelay); // slower typing for phone feel
+  }, charDelay);
 }
 
 class BinaryRain {
@@ -37,14 +38,6 @@ class BinaryRain {
     if (!this.canvas) return;
 
     this.ctx = this.canvas.getContext('2d');
-
-    // --- Mobile tuning flags ---
-    this.isMobile = /Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
-    this.dprCap   = this.isMobile ? 1.5 : 2;     // cap pixel density
-    this.targetFPS = this.isMobile ? 48 : 60;    // cap FPS (smoother on iPhone)
-    this.frameInterval = 1000 / this.targetFPS;
-    this.lastTime = 0;
-
     this.drops = [];
     this.animationId = null;
     this.mousePos = { x: 0, y: 0 };
@@ -71,26 +64,15 @@ class BinaryRain {
   }
 
   setupCanvas() {
-    const dprRaw = window.devicePixelRatio || 1;
-    const dpr = Math.min(dprRaw, this.dprCap);   // <- cap DPR on mobile
-    this.dpr = dpr;
-
+    const dpr = window.devicePixelRatio || 1;   // classic: no DPR cap
     const w = this.canvas.clientWidth;
     const h = this.canvas.clientHeight;
 
-    // Reset and scale once
     this.ctx.setTransform(1, 0, 0, 1, 0, 0);
     this.canvas.width  = Math.floor(w * dpr);
     this.canvas.height = Math.floor(h * dpr);
     this.ctx.scale(dpr, dpr);
     this.ctx.textBaseline = 'top';
-
-    // Font/spacing computed once per resize, not every frame
-    // Slightly smaller on phones to reduce glyph count per column
-    const base = this.isMobile ? 110 : 90; // smaller number -> bigger font
-    this.fontSize   = Math.max(14, Math.round(w / base));
-    this.lineHeight = Math.round(this.fontSize * 1.33);
-    this.ctx.font   = `${this.fontSize}px monospace`;
   }
 
   attachEvents() {
@@ -112,7 +94,7 @@ class BinaryRain {
     }, { passive: true });
   }
 
-  // Fade the type line as soon as the logo approaches (avoid overlap)
+  // Fade the type line before the logo arrives (avoid overlap)
   updateTypeLineVisibility() {
     if (!this.edgeEl) return;
     const wrapper = this.edgeEl.parentElement; // .type-header
@@ -125,14 +107,14 @@ class BinaryRain {
     const rect = logo.getBoundingClientRect();
     const logoTop = rect.top + window.pageYOffset;
 
-    // Fade earlier on phones for extra room
-    const TRIGGER = this.isMobile ? 0.85 : 0.75; // % of viewport height
-    const triggerY = logoTop - window.innerHeight * TRIGGER - 80; // padding
+    // Fade earlier so it never overlaps the hologram
+    const TRIGGER = 0.85; // % of viewport height
+    const triggerY = logoTop - window.innerHeight * TRIGGER - 80; // extra padding
 
     wrapper.style.opacity = (y >= triggerY) ? '0' : '1';
   }
 
-  // Keep raining until headline (or first viewport) then stop; resume when above
+  // Keep raining until headline, then stop; resume when above
   updateStopAtHeadline() {
     const y = window.pageYOffset;
 
@@ -166,20 +148,16 @@ class BinaryRain {
   createDrops() {
     this.drops.length = 0;
     const width = this.canvas.clientWidth;
-    // Fewer columns/streams on phones
-    const baseDensity = this.isMobile ? 42 : 25; // bigger => fewer drops
-    const dropCount = Math.max(10, Math.floor(width / baseDensity));
+    const height = this.canvas.clientHeight;
+    const density = 25; // classic density (lower = denser)
+    const dropCount = Math.max(12, Math.floor(width / density));
     for (let i = 0; i < dropCount; i++) {
-      this.drops.push(this.makeDrop(width, this.canvas.clientHeight));
+      this.drops.push(this.makeDrop(width, height));
     }
   }
 
   makeDrop(width, height) {
-    // Shorter streams + slightly slower on phones
-    const charCount = this.isMobile
-      ? (Math.floor(Math.random() * 8) + 5)    // 5–12
-      : (Math.floor(Math.random() * 15) + 5);  // 5–20
-
+    const charCount = Math.floor(Math.random() * 15) + 5; // 5–20 classic
     const characters = Array.from({ length: charCount }, () =>
       this.binaryChars[(Math.random() < 0.5) ? 0 : 1]
     );
@@ -187,7 +165,7 @@ class BinaryRain {
     return {
       x: Math.random() * width,
       y: Math.random() * -height,
-      speed: (this.isMobile ? 0.8 : 1) * (Math.random() * 2 + 1), // 0.8–2.4 on phone
+      speed: Math.random() * 2 + 1,    // 1–3 px/frame (classic)
       characters,
       updateFrequency: Math.floor(Math.random() * 10) + 5,
       lastUpdate: 0
@@ -196,14 +174,9 @@ class BinaryRain {
 
   startLoop() {
     if (this.animationId) return;
-    const loop = (ts) => {
-      if (!this.stoppedAtHeadline) {
-        if (ts - this.lastTime >= this.frameInterval) {
-          this.lastTime = ts;
-          this.animate();
-        }
-      }
-      this.animationId = requestAnimationFrame(loop);
+    const loop = () => {
+      if (!this.stoppedAtHeadline) this.animate();
+      this.animationId = requestAnimationFrame(loop); // classic: no FPS cap
     };
     this.animationId = requestAnimationFrame(loop);
   }
@@ -217,27 +190,29 @@ class BinaryRain {
   startTypewriter() {
     if (this._typedStarted || !this.edgeEl) return;
     this._typedStarted = true;
+
     const beforeText = "AI isnt your enemy; its your ";
     const edgeWord   = "edge";
-    typeWriter(this.edgeEl, beforeText, edgeWord, { charDelay: 95 }); // slower on phone
+    typeWriter(this.edgeEl, beforeText, edgeWord, { charDelay: 95 }); // your preferred slower type
   }
 
   animate() {
     const width  = this.canvas.clientWidth;
     const height = this.canvas.clientHeight;
 
-    // Lighter trail on phones (less overdraw)
-    this.ctx.fillStyle = this.isMobile ? 'rgba(0, 0, 0, 0.12)' : 'rgba(0, 0, 0, 0.18)';
+    // Classic look
+    this.ctx.fillStyle = 'rgba(0, 0, 0, 0.18)';
     this.ctx.fillRect(0, 0, width, height);
+    this.ctx.font = '18px monospace';   // classic font each frame
+    const spacing = 24;                 // classic spacing
 
-    const spacing = this.lineHeight;
     for (let i = 0; i < this.drops.length; i++) {
       const drop = this.drops[i];
 
       const dx = this.mousePos.x - drop.x;
       const dy = this.mousePos.y - drop.y;
       const distance = Math.hypot(dx, dy);
-      const influenceRadius = this.isMobile ? 120 : 180;
+      const influenceRadius = 180;
 
       for (let j = 0; j < drop.characters.length; j++) {
         const y = drop.y - j * spacing;
