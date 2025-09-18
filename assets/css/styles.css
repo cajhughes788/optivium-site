@@ -385,3 +385,16 @@ a:focus-visible,button:focus-visible,input:focus-visible,textarea:focus-visible{
 @media (prefers-reduced-motion: reduce){
   .metallic{ animation: none !important; }
 }
+
+/* Soften heavy effects on small phones */
+@media (max-width: 480px){
+  .holo::before{ filter: blur(12px); }      /* was 18px */
+  .holo::after{ animation: none; opacity: .25; } /* pause scanlines */
+  #edge-word.edge-glow{
+    text-shadow:
+      0 0 4px rgba(0,174,239,.8),
+      0 0 10px rgba(0,174,239,.45),
+      0 0 18px rgba(0,174,239,.25);
+  }
+}
+
