@@ -308,3 +308,69 @@ a:focus-visible,button:focus-visible,input:focus-visible,textarea:focus-visible{
   .rotating-logo-3d{ animation:none !important; }
   .holo::before, .holo::after{ animation:none; }
 }
+
+/* === Metallic typewriter line === */
+.type-header{
+  position: fixed;
+  top: env(safe-area-inset-top, 0);
+  left: 0;
+  right: 0;
+  z-index: 2;                 /* above rain, below dialogs if any */
+  display: grid;
+  place-items: center;
+  padding: 1rem 0.75rem;
+  pointer-events: none;       /* text isn't interactive */
+}
+
+.edge-line{
+  margin: 0;
+  font-weight: 800;
+  letter-spacing: 0.035em;
+  text-transform: uppercase;
+  line-height: 1.1;
+  /* iPhone-friendly responsive size */
+  font-size: clamp(0.9rem, 2.6vw + 0.5rem, 1.4rem);
+  white-space: nowrap;        /* default: one line on larger screens */
+  opacity: 0;                 /* revealed when typing starts */
+  transition: opacity 0.35s ease;
+  pointer-events: auto;       /* allow text selection if desired */
+  text-align: center;
+  max-width: 92vw;
+}
+
+/* Metallic sheen */
+.metallic{
+  background: linear-gradient(90deg, #d9d9d9, #8a8a8a 22%, #f5f5f5 45%, #6d6d6d 60%, #eaeaea 78%, #9a9a9a);
+  background-size: 200% auto;
+  color: transparent;
+  -webkit-background-clip: text;
+  background-clip: text;
+  text-shadow:
+    0 1px 1px rgba(255,255,255,0.25),
+    0 -1px 1px rgba(0,0,0,0.25);
+  animation: metal-sheen 4s linear infinite;
+}
+
+@keyframes metal-sheen{
+  0%   { background-position: 0% 50%; }
+  100% { background-position: 200% 50%; }
+}
+
+/* Blink cursor style (added by JS) */
+.edge-line.typing{
+  border-right: 2px solid rgba(255,255,255,0.85);
+  padding-right: 4px;
+}
+
+/* iPhone/small-screen tweaks */
+@media (max-width: 420px){
+  .edge-line{
+    white-space: normal;       /* allow wrap on tiny screens */
+    letter-spacing: 0.02em;    /* slightly tighter */
+  }
+}
+
+/* Respect reduced motion */
+@media (prefers-reduced-motion: reduce){
+  .metallic{ animation: none !important; }
+}
