@@ -1,174 +1,188 @@
 class BinaryRain {
   constructor() {
     this.canvas = document.getElementById('binary-rain');
+    if (!this.canvas) return;
+
     this.ctx = this.canvas.getContext('2d');
     this.drops = [];
     this.animationId = null;
     this.mousePos = { x: 0, y: 0 };
-    this.scrollOpacity = 1;
-    this.isActive = true;
-    
-    // Binary characters (only 0 and 1)
+    this.running = true;              // animation state
     this.binaryChars = ['0', '1'];
-    
-    // Check for reduced motion preference
+    this.headline = document.getElementById('heroHeadline');
+
+    // Respect reduced motion
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      this.canvas.style.display = 'none';
       return;
     }
-    
-    this.init();
-  }
-  
-  init() {
+
     this.setupCanvas();
-    this.setupEventListeners();
     this.createDrops();
-    this.animate();
+    this.attachEvents();
+    this.startLoop();
+    this.updateFade(); // initialize opacity based on current scroll
   }
-  
+
   setupCanvas() {
     const dpr = window.devicePixelRatio || 1;
-    const rect = this.canvas.getBoundingClientRect();
-    
-    this.canvas.width = rect.width * dpr;
-    this.canvas.height = rect.height * dpr;
-    
+    const w = this.canvas.clientWidth;
+    const h = this.canvas.clientHeight;
+
+    // Reset transform before resizing (avoids compounded scales)
+    this.ctx.setTransform(1, 0, 0, 1, 0, 0);
+
+    this.canvas.width = Math.floor(w * dpr);
+    this.canvas.height = Math.floor(h * dpr);
     this.ctx.scale(dpr, dpr);
-    this.canvas.style.width = rect.width + 'px';
-    this.canvas.style.height = rect.height + 'px';
+
+    this.ctx.textBaseline = 'top';
   }
-  
-  setupEventListeners() {
-    // Handle resize
+
+  attachEvents() {
     window.addEventListener('resize', () => {
       this.setupCanvas();
       this.createDrops();
-    });
-    
-    // Track mouse position
+      this.updateFade();
+    }, { passive: true });
+
     window.addEventListener('mousemove', (e) => {
       this.mousePos.x = e.clientX;
       this.mousePos.y = e.clientY;
-    });
-    
-    // Handle scroll for opacity fade
-    window.addEventListener('scroll', () => {
-      const scrollY = window.scrollY;
-      const viewportHeight = window.innerHeight;
-      
-      if (scrollY >= viewportHeight) {
-        // Stop and clear after 100vh scroll
-        this.isActive = false;
-        this.canvas.style.opacity = '0';
-        if (this.animationId) {
-          cancelAnimationFrame(this.animationId);
-          this.animationId = null;
-        }
-        // Clear canvas
-        this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-      } else {
-        // Fade opacity during first 100vh
-        this.scrollOpacity = 1 - (scrollY / viewportHeight);
-        this.canvas.style.opacity = this.scrollOpacity.toString();
-        
-        // Restart animation if it was stopped
-        if (!this.animationId && this.isActive) {
-          this.animate();
-        }
-      }
-    });
+    }, { passive: true });
+
+    window.addEventListener('scroll', () => this.updateFade(), { passive: true });
   }
-  
+
+  updateFade() {
+    // Fade only when the headline is reached
+    let fadeStart, fadeEnd;
+
+    if (this.headline) {
+      const rect = this.headline.getBoundingClientRect();
+      const hTop = rect.top + window.pageYOffset;
+      fadeStart = hTop - window.innerHeight * 0.5; // start a bit before H1 hits mid-viewport
+      fadeEnd   = fadeStart + window.innerHeight * 0.9;
+    } else {
+      // Fallback: fade after first viewport
+      fadeStart = window.innerHeight * 0.8;
+      fadeEnd   = fadeStart + window.innerHeight * 0.9;
+    }
+
+    const y = window.pageYOffset;
+    const t = Math.min(Math.max((y - fadeStart) / (fadeEnd - fadeStart), 0), 1);
+    const opacity = 1 - t;
+    this.canvas.style.opacity = opacity.toFixed(3);
+
+    if (t >= 1 && this.running) {
+      this.running = false;
+      this.stopLoop();
+      // Clear once at device pixels
+      this.ctx.save();
+      this.ctx.setTransform(1, 0, 0, 1, 0, 0);
+      this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+      this.ctx.restore();
+    } else if (t < 1 && !this.running) {
+      this.running = true;
+      this.startLoop();
+    }
+  }
+
   createDrops() {
-    this.drops = [];
+    this.drops.length = 0;
     const width = this.canvas.clientWidth;
     const height = this.canvas.clientHeight;
-    const dropCount = Math.floor(width / 25); // Adjust density
-    
+    const density = 25; // lower = denser
+    const dropCount = Math.max(10, Math.floor(width / density));
+
     for (let i = 0; i < dropCount; i++) {
-      this.drops.push(this.createDrop(width, height));
+      this.drops.push(this.makeDrop(width, height));
     }
   }
-  
-  createDrop(width, height) {
-    const charCount = Math.floor(Math.random() * 15) + 5; // 5-20 characters
-    const characters = [];
-    
-    for (let i = 0; i < charCount; i++) {
-      const randomIndex = Math.floor(Math.random() * this.binaryChars.length);
-      characters.push(this.binaryChars[randomIndex]);
-    }
-    
+
+  makeDrop(width, height) {
+    const charCount = Math.floor(Math.random() * 15) + 5; // 5–20
+    const characters = Array.from({ length: charCount }, () =>
+      this.binaryChars[Math.random() < 0.5 ? 0 : 1]
+    );
+
     return {
       x: Math.random() * width,
-      y: Math.random() * -height, // Start above screen
-      speed: Math.random() * 2 + 1, // Random speed 0.3-1.1
+      y: Math.random() * -height,     // start above the screen
+      speed: Math.random() * 2 + 1,   // 1–3 px/frame → faster
       characters,
       updateFrequency: Math.floor(Math.random() * 10) + 5,
       lastUpdate: 0
     };
   }
-  
+
+  startLoop() {
+    if (this.animationId) return;
+    const loop = () => {
+      this.animate();
+      this.animationId = requestAnimationFrame(loop);
+    };
+    this.animationId = requestAnimationFrame(loop);
+  }
+
+  stopLoop() {
+    if (!this.animationId) return;
+    cancelAnimationFrame(this.animationId);
+    this.animationId = null;
+  }
+
   animate() {
-    if (!this.isActive) return;
-    
-    const width = this.canvas.clientWidth;
+    if (!this.running) return;
+
+    const width  = this.canvas.clientWidth;
     const height = this.canvas.clientHeight;
-    
-    // Semi-transparent black background for trail effect
-    this.ctx.fillStyle = 'rgba(0, 0, 0, 0.2)';
+
+    // Trail effect
+    this.ctx.fillStyle = 'rgba(0, 0, 0, 0.18)';
     this.ctx.fillRect(0, 0, width, height);
-    
-    // Update and draw each drop
-    this.drops.forEach((drop, index) => {
-      // Calculate distance from mouse
+    this.ctx.font = '18px monospace';
+
+    for (let i = 0; i < this.drops.length; i++) {
+      const drop = this.drops[i];
+
+      // Mouse proximity glow
       const dx = this.mousePos.x - drop.x;
       const dy = this.mousePos.y - drop.y;
-      const distance = Math.sqrt(dx * dx + dy * dy);
+      const distance = Math.hypot(dx, dy);
       const influenceRadius = 180;
-      
-      // Draw each character in the drop
-      drop.characters.forEach((char, charIndex) => {
-        const y = drop.y - charIndex * 24; // Character spacing
-        
-        if (y < height && y > 0) {
-          // Color based on mouse proximity
-          if (distance < influenceRadius) {
-            const intensity = 1 - distance / influenceRadius;
-            const r = Math.floor(120 * intensity);
-            const g = Math.floor(220 * intensity);
-            const b = Math.floor(255 * intensity);
-            this.ctx.fillStyle = `rgb(${r}, ${g}, ${b})`;
-          } else {
-            // Default with trail fade
-            const opacity = charIndex === 0 ? 1 : 1 - charIndex / drop.characters.length;
-            this.ctx.fillStyle = `rgba(180, 180, 180, ${opacity})`;
-          }
-          
-          // Draw character
-          this.ctx.font = '18px monospace';
-          this.ctx.fillText(char, drop.x, y);
+
+      for (let j = 0; j < drop.characters.length; j++) {
+        const y = drop.y - j * 24; // char spacing
+        if (y < 0 || y > height) continue;
+
+        if (distance < influenceRadius) {
+          const intensity = 1 - distance / influenceRadius;
+          const r = Math.floor(120 * intensity);
+          const g = Math.floor(220 * intensity);
+          const b = Math.floor(255 * intensity);
+          this.ctx.fillStyle = `rgb(${r}, ${g}, ${b})`;
+        } else {
+          const alpha = j === 0 ? 1 : 1 - j / drop.characters.length;
+          this.ctx.fillStyle = `rgba(180, 180, 180, ${alpha})`;
         }
-      });
-      
-      // Update drop position
+
+        this.ctx.fillText(drop.characters[j], drop.x, y);
+      }
+
+      // Move drop
       drop.y += drop.speed;
-      drop.lastUpdate++;
-      
-      // Randomly change first character
-      if (drop.lastUpdate > drop.updateFrequency) {
+
+      // Randomly change leading char
+      if (++drop.lastUpdate > drop.updateFrequency) {
         drop.lastUpdate = 0;
-        const randomIndex = Math.floor(Math.random() * this.binaryChars.length);
-        drop.characters[0] = this.binaryChars[randomIndex];
+        drop.characters[0] = this.binaryChars[Math.random() < 0.5 ? 0 : 1];
       }
-      
-      // Reset drop when off screen
+
+      // Reset when fully past bottom
       if (drop.y - drop.characters.length * 24 > height) {
-        this.drops[index] = this.createDrop(width, height);
+        this.drops[i] = this.makeDrop(width, height);
       }
-    });
-    
-    this.animationId = requestAnimationFrame(() => this.animate());
+    }
   }
 }
 
