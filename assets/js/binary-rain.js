@@ -1,8 +1,6 @@
-// === Typewriter helper ===
-function typeWriter(el, beforeText, edgeWord, { charDelay = 72 } = {}) {
+// === Typewriter helper (glow "edge") ===
+function typeWriter(el, beforeText, edgeWord, { charDelay = 95 } = {}) {
   if (!el) return;
-
-  // Build two nodes so we can glow only "edge"
   el.textContent = '';
   el.style.opacity = 1;
   el.classList.add('typing');
@@ -11,13 +9,11 @@ function typeWriter(el, beforeText, edgeWord, { charDelay = 72 } = {}) {
   const edgeSpan = document.createElement('span');
   edgeSpan.id = 'edge-word';
   edgeSpan.textContent = '';
-
   el.appendChild(beforeNode);
   el.appendChild(edgeSpan);
 
   const totalLen = beforeText.length + edgeWord.length;
   let i = 0;
-
   const timer = setInterval(() => {
     if (i < beforeText.length) {
       beforeNode.textContent += beforeText.charAt(i);
@@ -25,7 +21,6 @@ function typeWriter(el, beforeText, edgeWord, { charDelay = 72 } = {}) {
       const idx = i - beforeText.length;
       edgeSpan.textContent += edgeWord.charAt(idx);
       if (idx === edgeWord.length - 1) {
-        // done typing "edge"
         setTimeout(() => el.classList.remove('typing'), 300);
         edgeSpan.classList.add('edge-glow');
       }
@@ -33,7 +28,7 @@ function typeWriter(el, beforeText, edgeWord, { charDelay = 72 } = {}) {
       clearInterval(timer);
     }
     i++;
-  }, charDelay);
+  }, charDelay); // slower typing for phone feel
 }
 
 class BinaryRain {
@@ -42,6 +37,14 @@ class BinaryRain {
     if (!this.canvas) return;
 
     this.ctx = this.canvas.getContext('2d');
+
+    // --- Mobile tuning flags ---
+    this.isMobile = /Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+    this.dprCap   = this.isMobile ? 1.5 : 2;     // cap pixel density
+    this.targetFPS = this.isMobile ? 48 : 60;    // cap FPS (smoother on iPhone)
+    this.frameInterval = 1000 / this.targetFPS;
+    this.lastTime = 0;
+
     this.drops = [];
     this.animationId = null;
     this.mousePos = { x: 0, y: 0 };
@@ -49,7 +52,7 @@ class BinaryRain {
     this.binaryChars = ['0', '1'];
 
     this.headline = document.getElementById('heroHeadline');
-    this.edgeEl = document.getElementById('edge-line');
+    this.edgeEl   = document.getElementById('edge-line');
     this._typedStarted = false;
 
     // Respect reduced motion
@@ -68,15 +71,26 @@ class BinaryRain {
   }
 
   setupCanvas() {
-    const dpr = window.devicePixelRatio || 1;
+    const dprRaw = window.devicePixelRatio || 1;
+    const dpr = Math.min(dprRaw, this.dprCap);   // <- cap DPR on mobile
+    this.dpr = dpr;
+
     const w = this.canvas.clientWidth;
     const h = this.canvas.clientHeight;
 
+    // Reset and scale once
     this.ctx.setTransform(1, 0, 0, 1, 0, 0);
-    this.canvas.width = Math.floor(w * dpr);
+    this.canvas.width  = Math.floor(w * dpr);
     this.canvas.height = Math.floor(h * dpr);
     this.ctx.scale(dpr, dpr);
     this.ctx.textBaseline = 'top';
+
+    // Font/spacing computed once per resize, not every frame
+    // Slightly smaller on phones to reduce glyph count per column
+    const base = this.isMobile ? 110 : 90; // smaller number -> bigger font
+    this.fontSize   = Math.max(14, Math.round(w / base));
+    this.lineHeight = Math.round(this.fontSize * 1.33);
+    this.ctx.font   = `${this.fontSize}px monospace`;
   }
 
   attachEvents() {
@@ -98,7 +112,7 @@ class BinaryRain {
     }, { passive: true });
   }
 
-  // Fade the type line as soon as the logo is reached
+  // Fade the type line as soon as the logo approaches (avoid overlap)
   updateTypeLineVisibility() {
     if (!this.edgeEl) return;
     const wrapper = this.edgeEl.parentElement; // .type-header
@@ -111,14 +125,14 @@ class BinaryRain {
     const rect = logo.getBoundingClientRect();
     const logoTop = rect.top + window.pageYOffset;
 
-const TRIGGER = 0.75; // fade when logo is ~75% down the viewport
-const triggerY = logoTop - window.innerHeight * TRIGGER - 80; // 80px earlier
-
+    // Fade earlier on phones for extra room
+    const TRIGGER = this.isMobile ? 0.85 : 0.75; // % of viewport height
+    const triggerY = logoTop - window.innerHeight * TRIGGER - 80; // padding
 
     wrapper.style.opacity = (y >= triggerY) ? '0' : '1';
   }
 
-  // Keep raining until headline, then stop instantly
+  // Keep raining until headline (or first viewport) then stop; resume when above
   updateStopAtHeadline() {
     const y = window.pageYOffset;
 
@@ -152,16 +166,20 @@ const triggerY = logoTop - window.innerHeight * TRIGGER - 80; // 80px earlier
   createDrops() {
     this.drops.length = 0;
     const width = this.canvas.clientWidth;
-    const height = this.canvas.clientHeight;
-    const density = 25; // lower = denser
-    const dropCount = Math.max(12, Math.floor(width / density));
+    // Fewer columns/streams on phones
+    const baseDensity = this.isMobile ? 42 : 25; // bigger => fewer drops
+    const dropCount = Math.max(10, Math.floor(width / baseDensity));
     for (let i = 0; i < dropCount; i++) {
-      this.drops.push(this.makeDrop(width, height));
+      this.drops.push(this.makeDrop(width, this.canvas.clientHeight));
     }
   }
 
   makeDrop(width, height) {
-    const charCount = Math.floor(Math.random() * 15) + 5; // 5–20
+    // Shorter streams + slightly slower on phones
+    const charCount = this.isMobile
+      ? (Math.floor(Math.random() * 8) + 5)    // 5–12
+      : (Math.floor(Math.random() * 15) + 5);  // 5–20
+
     const characters = Array.from({ length: charCount }, () =>
       this.binaryChars[(Math.random() < 0.5) ? 0 : 1]
     );
@@ -169,7 +187,7 @@ const triggerY = logoTop - window.innerHeight * TRIGGER - 80; // 80px earlier
     return {
       x: Math.random() * width,
       y: Math.random() * -height,
-      speed: Math.random() * 2 + 1,
+      speed: (this.isMobile ? 0.8 : 1) * (Math.random() * 2 + 1), // 0.8–2.4 on phone
       characters,
       updateFrequency: Math.floor(Math.random() * 10) + 5,
       lastUpdate: 0
@@ -178,8 +196,13 @@ const triggerY = logoTop - window.innerHeight * TRIGGER - 80; // 80px earlier
 
   startLoop() {
     if (this.animationId) return;
-    const loop = () => {
-      if (!this.stoppedAtHeadline) this.animate();
+    const loop = (ts) => {
+      if (!this.stoppedAtHeadline) {
+        if (ts - this.lastTime >= this.frameInterval) {
+          this.lastTime = ts;
+          this.animate();
+        }
+      }
       this.animationId = requestAnimationFrame(loop);
     };
     this.animationId = requestAnimationFrame(loop);
@@ -194,30 +217,30 @@ const triggerY = logoTop - window.innerHeight * TRIGGER - 80; // 80px earlier
   startTypewriter() {
     if (this._typedStarted || !this.edgeEl) return;
     this._typedStarted = true;
-
     const beforeText = "AI isnt your enemy; its your ";
     const edgeWord   = "edge";
-    typeWriter(this.edgeEl, beforeText, edgeWord, { charDelay: 95 }); // 2× slower
+    typeWriter(this.edgeEl, beforeText, edgeWord, { charDelay: 95 }); // slower on phone
   }
 
   animate() {
     const width  = this.canvas.clientWidth;
     const height = this.canvas.clientHeight;
 
-    this.ctx.fillStyle = 'rgba(0, 0, 0, 0.18)';
+    // Lighter trail on phones (less overdraw)
+    this.ctx.fillStyle = this.isMobile ? 'rgba(0, 0, 0, 0.12)' : 'rgba(0, 0, 0, 0.18)';
     this.ctx.fillRect(0, 0, width, height);
-    this.ctx.font = '18px monospace';
 
+    const spacing = this.lineHeight;
     for (let i = 0; i < this.drops.length; i++) {
       const drop = this.drops[i];
 
       const dx = this.mousePos.x - drop.x;
       const dy = this.mousePos.y - drop.y;
       const distance = Math.hypot(dx, dy);
-      const influenceRadius = 180;
+      const influenceRadius = this.isMobile ? 120 : 180;
 
       for (let j = 0; j < drop.characters.length; j++) {
-        const y = drop.y - j * 24;
+        const y = drop.y - j * spacing;
         if (y < 0 || y > height) continue;
 
         if (distance < influenceRadius) {
@@ -241,14 +264,14 @@ const triggerY = logoTop - window.innerHeight * TRIGGER - 80; // 80px earlier
         drop.characters[0] = this.binaryChars[(Math.random() < 0.5) ? 0 : 1];
       }
 
-      if (drop.y - drop.characters.length * 24 > height) {
+      if (drop.y - drop.characters.length * spacing > height) {
         this.drops[i] = this.makeDrop(width, height);
       }
     }
   }
 }
 
-// Initialize on DOM load
+// Init
 document.addEventListener('DOMContentLoaded', () => {
   new BinaryRain();
 });
