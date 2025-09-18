@@ -1,3 +1,27 @@
+// === Typewriter helper ===
+function typeWriter(el, text, {
+  charDelay = 38,
+  startDelay = 80,   // starts almost immediately with the rain
+  showCursor = true
+} = {}) {
+  if (!el) return;
+  let i = 0;
+  const write = () => {
+    el.style.opacity = 1;
+    if (showCursor) el.classList.add('typing');
+    const timer = setInterval(() => {
+      el.textContent += text.charAt(i);
+      i++;
+      if (i >= text.length) {
+        clearInterval(timer);
+        if (showCursor) setTimeout(() => el.classList.remove('typing'), 250);
+      }
+    }, charDelay);
+  };
+  setTimeout(write, startDelay);
+}
+
+
 class BinaryRain {
   constructor() {
     this.canvas = document.getElementById('binary-rain');
@@ -11,7 +35,11 @@ class BinaryRain {
     this.stoppedAtHeadline = false;
     this.binaryChars = ['0', '1'];
     this.headline = document.getElementById('heroHeadline');
+    this.edgeEl = document.getElementById('edge-line');
+    this._typedStarted = false;
 
+
+    
     // Respect reduced motion
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
       this.canvas.style.display = 'none';
@@ -23,6 +51,7 @@ class BinaryRain {
     this.attachEvents();
     this.updateStopAtHeadline();  // set initial state based on current scroll
     this.startLoop();
+    this.startTypewriter();
   }
 
   setupCanvas() {
@@ -126,6 +155,22 @@ class BinaryRain {
     this.animationId = requestAnimationFrame(loop);
   }
 
+  startTypewriter(){
+  if (this._typedStarted) return;
+  if (!this.edgeEl) return;
+  this._typedStarted = true;
+
+  // Use straight apostrophes for absolute UTF-8 safety across devices
+  const message = "AI isnt your enemy; its your edge";
+
+  typeWriter(this.edgeEl, message, {
+    charDelay: 36,
+    startDelay: 120,   // tiny offset so it feels synced with first frame
+    showCursor: true
+  });
+}
+
+  
   stopLoop() {
     if (!this.animationId) return;
     cancelAnimationFrame(this.animationId);
