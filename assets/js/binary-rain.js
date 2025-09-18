@@ -7,7 +7,8 @@ class BinaryRain {
     this.drops = [];
     this.animationId = null;
     this.mousePos = { x: 0, y: 0 };
-    this.running = true;              // animation state
+    this.running = true;          // loop running
+    this.stoppedAtHeadline = false;
     this.binaryChars = ['0', '1'];
     this.headline = document.getElementById('heroHeadline');
 
@@ -20,8 +21,8 @@ class BinaryRain {
     this.setupCanvas();
     this.createDrops();
     this.attachEvents();
+    this.updateStopAtHeadline();  // set initial state based on current scroll
     this.startLoop();
-    this.updateFade(); // initialize opacity based on current scroll
   }
 
   setupCanvas() {
@@ -29,13 +30,11 @@ class BinaryRain {
     const w = this.canvas.clientWidth;
     const h = this.canvas.clientHeight;
 
-    // Reset transform before resizing (avoids compounded scales)
+    // Reset transform before resizing to avoid compounded scales
     this.ctx.setTransform(1, 0, 0, 1, 0, 0);
-
     this.canvas.width = Math.floor(w * dpr);
     this.canvas.height = Math.floor(h * dpr);
     this.ctx.scale(dpr, dpr);
-
     this.ctx.textBaseline = 'top';
   }
 
@@ -43,7 +42,7 @@ class BinaryRain {
     window.addEventListener('resize', () => {
       this.setupCanvas();
       this.createDrops();
-      this.updateFade();
+      this.updateStopAtHeadline();
     }, { passive: true });
 
     window.addEventListener('mousemove', (e) => {
@@ -51,40 +50,42 @@ class BinaryRain {
       this.mousePos.y = e.clientY;
     }, { passive: true });
 
-    window.addEventListener('scroll', () => this.updateFade(), { passive: true });
+    window.addEventListener('scroll', () => this.updateStopAtHeadline(), { passive: true });
   }
 
-  updateFade() {
-    // Fade only when the headline is reached
-    let fadeStart, fadeEnd;
+  // === Keep raining until headline, then stop instantly ===
+  updateStopAtHeadline() {
+    const y = window.pageYOffset;
 
+    // Where to stop: when the top of the H1 reaches ~mid viewport
+    let triggerY;
     if (this.headline) {
       const rect = this.headline.getBoundingClientRect();
       const hTop = rect.top + window.pageYOffset;
-      fadeStart = hTop - window.innerHeight * 0.5; // start a bit before H1 hits mid-viewport
-      fadeEnd   = fadeStart + window.innerHeight * 0.9;
+      const STOP_AT = 0.50; // 0.50 = mid-viewport; tweak to taste (e.g., 0.60)
+      triggerY = hTop - window.innerHeight * STOP_AT;
     } else {
-      // Fallback: fade after first viewport
-      fadeStart = window.innerHeight * 0.8;
-      fadeEnd   = fadeStart + window.innerHeight * 0.9;
+      // Fallback if H1 missing: after first viewport
+      triggerY = window.innerHeight;
     }
 
-    const y = window.pageYOffset;
-    const t = Math.min(Math.max((y - fadeStart) / (fadeEnd - fadeStart), 0), 1);
-    const opacity = 1 - t;
-    this.canvas.style.opacity = opacity.toFixed(3);
-
-    if (t >= 1 && this.running) {
-      this.running = false;
+    if (y >= triggerY && !this.stoppedAtHeadline) {
+      // Stop & clear immediately
+      this.stoppedAtHeadline = true;
       this.stopLoop();
-      // Clear once at device pixels
       this.ctx.save();
       this.ctx.setTransform(1, 0, 0, 1, 0, 0);
       this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
       this.ctx.restore();
-    } else if (t < 1 && !this.running) {
-      this.running = true;
+      this.canvas.style.opacity = '0'; // hide canvas so the page is clean
+    } else if (y < triggerY && this.stoppedAtHeadline) {
+      // Scrolled back above: resume rain at full opacity
+      this.stoppedAtHeadline = false;
+      this.canvas.style.opacity = '1';
       this.startLoop();
+    } else if (!this.stoppedAtHeadline) {
+      // Ensure visible while before trigger
+      this.canvas.style.opacity = '1';
     }
   }
 
@@ -93,7 +94,7 @@ class BinaryRain {
     const width = this.canvas.clientWidth;
     const height = this.canvas.clientHeight;
     const density = 25; // lower = denser
-    const dropCount = Math.max(10, Math.floor(width / density));
+    const dropCount = Math.max(12, Math.floor(width / density));
 
     for (let i = 0; i < dropCount; i++) {
       this.drops.push(this.makeDrop(width, height));
@@ -103,13 +104,13 @@ class BinaryRain {
   makeDrop(width, height) {
     const charCount = Math.floor(Math.random() * 15) + 5; // 5–20
     const characters = Array.from({ length: charCount }, () =>
-      this.binaryChars[Math.random() < 0.5 ? 0 : 1]
+      this.binaryChars[(Math.random() < 0.5) ? 0 : 1]
     );
 
     return {
       x: Math.random() * width,
       y: Math.random() * -height,     // start above the screen
-      speed: Math.random() * 2 + 1,   // 1–3 px/frame → faster
+      speed: Math.random() * 2 + 1,   // 1–3 px/frame (increase both numbers for faster)
       characters,
       updateFrequency: Math.floor(Math.random() * 10) + 5,
       lastUpdate: 0
@@ -119,7 +120,7 @@ class BinaryRain {
   startLoop() {
     if (this.animationId) return;
     const loop = () => {
-      this.animate();
+      if (!this.stoppedAtHeadline) this.animate();
       this.animationId = requestAnimationFrame(loop);
     };
     this.animationId = requestAnimationFrame(loop);
@@ -132,12 +133,10 @@ class BinaryRain {
   }
 
   animate() {
-    if (!this.running) return;
-
     const width  = this.canvas.clientWidth;
     const height = this.canvas.clientHeight;
 
-    // Trail effect
+    // Trail effect (slightly lighter for readability over hero)
     this.ctx.fillStyle = 'rgba(0, 0, 0, 0.18)';
     this.ctx.fillRect(0, 0, width, height);
     this.ctx.font = '18px monospace';
@@ -172,13 +171,13 @@ class BinaryRain {
       // Move drop
       drop.y += drop.speed;
 
-      // Randomly change leading char
+      // Change leading char occasionally
       if (++drop.lastUpdate > drop.updateFrequency) {
         drop.lastUpdate = 0;
-        drop.characters[0] = this.binaryChars[Math.random() < 0.5 ? 0 : 1];
+        drop.characters[0] = this.binaryChars[(Math.random() < 0.5) ? 0 : 1];
       }
 
-      // Reset when fully past bottom
+      // Reset when fully off-screen
       if (drop.y - drop.characters.length * 24 > height) {
         this.drops[i] = this.makeDrop(width, height);
       }
