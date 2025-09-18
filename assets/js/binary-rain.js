@@ -102,7 +102,7 @@ class BinaryRain {
     return {
       x: Math.random() * width,
       y: Math.random() * -height, // Start above screen
-      speed: Math.random() * 0.8 + 0.3, // Random speed 0.3-1.1
+      speed: Math.random() * 2 + 1, // Random speed 0.3-1.1
       characters,
       updateFrequency: Math.floor(Math.random() * 10) + 5,
       lastUpdate: 0
