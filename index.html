@@ -466,6 +466,33 @@
 
   <!-- Your rain script (from Step 1) -->
   <script src="assets/js/binary-rain.js?v=typer5"></script>
+
+<footer class="site-footer">
+  <div class="container">
+    <div class="brand">
+      <img src="/assets/Logo.svg" alt="Your Company Logo" width="36" height="36">
+      <span>YOUR BRAND</span>
+    </div>
+    <p class="tagline">
+      Smarter operations, stronger outcomes.
+    </p>
+    <p class="copy">© <span id="year"></span> Your Brand. All rights reserved.</p>
+  </div>
+</footer>
+
+<script>
+  document.getElementById("year").textContent = new Date().getFullYear();
+</script>
+
+<style>
+  .site-footer{border-top:1px solid #e5e7eb;background:rgba(255,255,255,.6);backdrop-filter:saturate(180%) blur(6px)}
+  .site-footer .container{max-width:72rem;margin:0 auto;padding:2.5rem 1rem;text-align:center}
+  .site-footer .brand{display:inline-flex;align-items:center;gap:.6rem;font-weight:600;font-size:1.1rem;letter-spacing:.02em}
+  .site-footer .tagline{margin:.6rem 0 0;color:#52525b}
+  .site-footer .copy{margin:1.2rem 0 0;color:#6b7280;font-size:.9rem}
+</style>
+
+
 </body>
 </html>
 
