@@ -1,5 +1,5 @@
 // === Typewriter helper (glow "edge") — classic behavior ===
-function typeWriter(el, beforeText, edgeWord, { charDelay = 95 } = {}) {
+function typeWriter(el, beforeText, edgeWord, { charDelay = 90 } = {}) {
   if (!el) return;
   el.textContent = '';
   el.style.opacity = 1;
@@ -150,7 +150,7 @@ class BinaryRain {
     const width = this.canvas.clientWidth;
     const height = this.canvas.clientHeight;
     const density = 25; // classic density (lower = denser)
-    const dropCount = Math.max(12, Math.floor(width / density));
+    const dropCount = Math.max(15, Math.floor(width / density));
     for (let i = 0; i < dropCount; i++) {
       this.drops.push(this.makeDrop(width, height));
     }
@@ -165,7 +165,7 @@ class BinaryRain {
     return {
       x: Math.random() * width,
       y: Math.random() * -height,
-      speed: Math.random() * 2 + 1,    // 1–3 px/frame (classic)
+      speed: Math.random() * 4 + 3,    // 1–3 px/frame (classic)
       characters,
       updateFrequency: Math.floor(Math.random() * 10) + 5,
       lastUpdate: 0

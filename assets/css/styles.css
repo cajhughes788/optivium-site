@@ -237,26 +237,31 @@ a:focus-visible,button:focus-visible,input:focus-visible,textarea:focus-visible{
   display:grid;
   place-items:center;
   perspective:1200px;
+  isolation: isolate;   /* keep blend modes self-contained */
 }
 
 /* overlays behind the image */
 .holo::before, .holo::after{ z-index:0; }
 .rotating-logo-3d{ position:relative; z-index:1; }
+.holo:hover::before { filter: blur(32px); opacity: 1; }
 
-/* The logo itself */
+/* The logo itself — keep colors pristine */
 .rotating-logo-3d{
   width:100%;
-  height:auto;                  /* keep natural aspect ratio */
+  height:auto;
   object-fit:contain;
   transform-style:preserve-3d;
   transform-origin:center center;
   backface-visibility:hidden;
-  -webkit-backface-visibility:hidden; /* Safari */
-  filter:
-    drop-shadow(0 8px 24px rgba(99,183,255,.25))
-    drop-shadow(0 0 80px rgba(99,183,255,.15));
+  -webkit-backface-visibility:hidden;
+
+  /* ✨ remove the drop-shadows that were darkening the logo */
+  filter: none !important;
+  mix-blend-mode: normal !important;
+
   will-change:transform;
 }
+
 
 /* ALWAYS-VISIBLE MODE: gentle Y-axis sway (no edge-on) */
 .rotating-logo-3d.sway{ animation:swayY 20s ease-in-out infinite; }
@@ -266,33 +271,36 @@ a:focus-visible,button:focus-visible,input:focus-visible,textarea:focus-visible{
   100% { transform:rotateY(-22deg); }
 }
 
-/* Hologram sheen */
+/* Hologram sheen / outer glow (stronger) */
 .holo::before{
   content:"";
-  position:absolute; inset:-8%;
+  position:absolute; inset:-10%;
+  /* brighter cyan + larger soft halo */
   background:
-    radial-gradient(60% 60% at 50% 40%, rgba(99,183,255,.18), transparent 60%),
+    radial-gradient(65% 65% at 50% 45%, rgba(0,174,239,.30), transparent 60%),
+    radial-gradient(85% 85% at 50% 80%, rgba(0,174,239,.18), transparent 70%),
     conic-gradient(from 0turn,
-      rgba(99,183,255,.12), transparent 0.25turn,
-      rgba(99,183,255,.12), transparent 0.5turn,
-      rgba(99,183,255,.12), transparent 0.75turn,
-      rgba(99,183,255,.12), transparent);
-  filter: blur(18px);
+      rgba(99,183,255,.16), transparent 0.25turn,
+      rgba(99,183,255,.16), transparent 0.5turn,
+      rgba(99,183,255,.16), transparent 0.75turn,
+      rgba(99,183,255,.16), transparent);
+  filter: blur(28px);
   pointer-events:none;
   animation:glow 6s ease-in-out infinite alternate;
   mix-blend-mode:screen;
+  opacity: .9; /* was animated between .55 and .85; this is punchier */
 }
 
-/* Scanline shimmer */
+/* Scanline shimmer (kept subtle, slightly brighter) */
 .holo::after{
   content:"";
-  position:absolute; inset:-2%;
+  position:absolute; inset:-3%;
   background:repeating-linear-gradient(
     to bottom,
-    rgba(99,183,255,.10) 0 2px,
+    rgba(99,183,255,.14) 0 2px,
     rgba(99,183,255,0) 2px 6px
   );
-  opacity:.35;
+  opacity:.45;                 /* was .35 */
   transform:translateY(-10%);
   animation:scan 5s linear infinite;
   pointer-events:none;
