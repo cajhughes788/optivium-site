@@ -10,6 +10,29 @@
 
   <!-- Optional: set accent variable (replace with your exact blue hex) -->
 </head>
+
+<script>
+const form = document.getElementById('contact-form');
+const statusEl = document.getElementById('form-status');
+
+form.addEventListener('submit', async (e) => {
+  e.preventDefault();
+  statusEl.textContent = 'Sending...';
+  try {
+    const res = await fetch(form.action, {
+      method: 'POST',
+      body: new FormData(form),
+      headers: { 'Accept': 'application/json' }
+    });
+    if (res.ok) { statusEl.textContent = 'Message sent ✅'; form.reset(); }
+    else        { statusEl.textContent = 'Error—please try again.'; }
+  } catch {
+    statusEl.textContent = 'Network error—try again.';
+  }
+});
+</script>
+
+
 <body>
 
   <!-- Rain canvas (sits behind everything, fades/stops after first 100vh scroll) -->
@@ -374,76 +397,90 @@
       </p>
     </header>
 
-    <form action="#" method="post" style="display: flex; flex-direction: column; gap: 1.5rem;">
-      <div style="display: flex; flex-direction: column; gap: 0.5rem;">
-        <label for="name" style="font-weight: 500; color: #E5E7EB; font-size: 0.875rem;">
-          Name *
-        </label>
-        <input 
-          type="text" 
-          id="name" 
-          name="name" 
-          required
-          style="background-color: #262626; color: #E5E7EB; border: 1px solid #374151; border-radius: 8px; padding: 0.875rem 1rem; font-size: 1rem; transition: all 0.2s ease;"
-          onfocus="this.style.borderColor='var(--accent, #00aeef)'; this.style.boxShadow='0 0 0 2px rgba(0, 174, 239, 0.1)'; this.style.outline='2px solid var(--accent, #00aeef)'; this.style.outlineOffset='2px';"
-          onblur="this.style.borderColor='#374151'; this.style.boxShadow='none'; this.style.outline='none';"
-          placeholder="Your full name">
-      </div>
+<form id="contact-form"
+      action="https://formsubmit.co/YOUR_EMAIL@example.com"
+      method="POST"
+      style="display: flex; flex-direction: column; gap: 1.5rem;">
 
-      <div style="display: flex; flex-direction: column; gap: 0.5rem;">
-        <label for="email" style="font-weight: 500; color: #E5E7EB; font-size: 0.875rem;">
-          Email *
-        </label>
-        <input 
-          type="email" 
-          id="email" 
-          name="email" 
-          required
-          style="background-color: #262626; color: #E5E7EB; border: 1px solid #374151; border-radius: 8px; padding: 0.875rem 1rem; font-size: 1rem; transition: all 0.2s ease;"
-          onfocus="this.style.borderColor='var(--accent, #00aeef)'; this.style.boxShadow='0 0 0 2px rgba(0, 174, 239, 0.1)'; this.style.outline='2px solid var(--accent, #00aeef)'; this.style.outlineOffset='2px';"
-          onblur="this.style.borderColor='#374151'; this.style.boxShadow='none'; this.style.outline='none';"
-          placeholder="your@email.com">
-      </div>
+  <!-- spam honeypot -->
+  <input type="text" name="_honey" style="display:none">
 
-      <div style="display: flex; flex-direction: column; gap: 0.5rem;">
-        <label for="company" style="font-weight: 500; color: #E5E7EB; font-size: 0.875rem;">
-          Company
-        </label>
-        <input 
-          type="text" 
-          id="company" 
-          name="company"
-          style="background-color: #262626; color: #E5E7EB; border: 1px solid #374151; border-radius: 8px; padding: 0.875rem 1rem; font-size: 1rem; transition: all 0.2s ease;"
-          onfocus="this.style.borderColor='var(--accent, #00aeef)'; this.style.boxShadow='0 0 0 2px rgba(0, 174, 239, 0.1)'; this.style.outline='2px solid var(--accent, #00aeef)'; this.style.outlineOffset='2px';"
-          onblur="this.style.borderColor='#374151'; this.style.boxShadow='none'; this.style.outline='none';"
-          placeholder="Your company name">
-      </div>
+  <!-- options -->
+  <input type="hidden" name="_subject" value="New message from Optivium site">
+  <input type="hidden" name="_captcha" value="false">
 
-      <div style="display: flex; flex-direction: column; gap: 0.5rem;">
-        <label for="message" style="font-weight: 500; color: #E5E7EB; font-size: 0.875rem;">
-          Message *
-        </label>
-        <textarea 
-          id="message" 
-          name="message" 
-          required
-          rows="5"
-          style="background-color: #262626; color: #E5E7EB; border: 1px solid #374151; border-radius: 8px; padding: 0.875rem 1rem; font-size: 1rem; transition: all 0.2s ease; resize: vertical; font-family: inherit;"
-          onfocus="this.style.borderColor='var(--accent, #00aeef)'; this.style.boxShadow='0 0 0 2px rgba(0, 174, 239, 0.1)'; this.style.outline='2px solid var(--accent, #00aeef)'; this.style.outlineOffset='2px';"
-          onblur="this.style.borderColor='#374151'; this.style.boxShadow='none'; this.style.outline='none';"
-          placeholder="Tell us about your business and what you'd like to automate..."></textarea>
-      </div>
+  <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+    <label for="name" style="font-weight: 500; color: #E5E7EB; font-size: 0.875rem;">
+      Name *
+    </label>
+    <input 
+      type="text" 
+      id="name" 
+      name="name" 
+      required
+      style="background-color: #262626; color: #E5E7EB; border: 1px solid #374151; border-radius: 8px; padding: 0.875rem 1rem; font-size: 1rem; transition: all 0.2s ease;"
+      onfocus="this.style.borderColor='var(--accent, #00aeef)'; this.style.boxShadow='0 0 0 2px rgba(0, 174, 239, 0.1)'; this.style.outline='2px solid var(--accent, #00aeef)'; this.style.outlineOffset='2px';"
+      onblur="this.style.borderColor='#374151'; this.style.boxShadow='none'; this.style.outline='none';"
+      placeholder="Your full name">
+  </div>
 
-      <button 
-        type="submit"
-        style="background-color: var(--accent, #00aeef); color: white; border: 2px solid var(--accent, #00aeef); border-radius: 8px; padding: 1rem 2rem; font-size: 1.125rem; font-weight: 600; cursor: pointer; transition: all 0.2s ease; margin-top: 1rem;"
-        onmouseover="this.style.backgroundColor='#0099d4'; this.style.borderColor='#0099d4'; this.style.transform='translateY(-1px)';"
-        onmouseout="this.style.backgroundColor='var(--accent, #00aeef)'; this.style.borderColor='var(--accent, #00aeef)'; this.style.transform='translateY(0)';"
-        onfocus="this.style.outline='2px solid var(--accent, #00aeef)'; this.style.outlineOffset='4px';"
-        onblur="this.style.outline='none';">
-        Send Message
-      </button>
-    </form>
+  <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+    <label for="email" style="font-weight: 500; color: #E5E7EB; font-size: 0.875rem;">
+      Email *
+    </label>
+    <input 
+      type="email" 
+      id="email" 
+      name="email" 
+      required
+      style="background-color: #262626; color: #E5E7EB; border: 1px solid #374151; border-radius: 8px; padding: 0.875rem 1rem; font-size: 1rem; transition: all 0.2s ease;"
+      onfocus="this.style.borderColor='var(--accent, #00aeef)'; this.style.boxShadow='0 0 0 2px rgba(0, 174, 239, 0.1)'; this.style.outline='2px solid var(--accent, #00aeef)'; this.style.outlineOffset='2px';"
+      onblur="this.style.borderColor='#374151'; this.style.boxShadow='none'; this.style.outline='none';"
+      placeholder="your@email.com">
+  </div>
+
+  <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+    <label for="company" style="font-weight: 500; color: #E5E7EB; font-size: 0.875rem;">
+      Company
+    </label>
+    <input 
+      type="text" 
+      id="company" 
+      name="company"
+      style="background-color: #262626; color: #E5E7EB; border: 1px solid #374151; border-radius: 8px; padding: 0.875rem 1rem; font-size: 1rem; transition: all 0.2s ease;"
+      onfocus="this.style.borderColor='var(--accent, #00aeef)'; this.style.boxShadow='0 0 0 2px rgba(0, 174, 239, 0.1)'; this.style.outline='2px solid var(--accent, #00aeef)'; this.style.outlineOffset='2px';"
+      onblur="this.style.borderColor='#374151'; this.style.boxShadow='none'; this.style.outline='none';"
+      placeholder="Your company name">
+  </div>
+
+  <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+    <label for="message" style="font-weight: 500; color: #E5E7EB; font-size: 0.875rem;">
+      Message *
+    </label>
+    <textarea 
+      id="message" 
+      name="message" 
+      required
+      rows="5"
+      style="background-color: #262626; color: #E5E7EB; border: 1px solid #374151; border-radius: 8px; padding: 0.875rem 1rem; font-size: 1rem; transition: all 0.2s ease; resize: vertical; font-family: inherit;"
+      onfocus="this.style.borderColor='var(--accent, #00aeef)'; this.style.boxShadow='0 0 0 2px rgba(0, 174, 239, 0.1)'; this.style.outline='2px solid var(--accent, #00aeef)'; this.style.outlineOffset='2px';"
+      onblur="this.style.borderColor='#374151'; this.style.boxShadow='none'; this.style.outline='none';"
+      placeholder="Tell us about your business and what you'd like to automate..."></textarea>
+  </div>
+
+  <button 
+    type="submit"
+    style="background-color: var(--accent, #00aeef); color: white; border: 2px solid var(--accent, #00aeef); border-radius: 8px; padding: 1rem 2rem; font-size: 1.125rem; font-weight: 600; cursor: pointer; transition: all 0.2s ease; margin-top: 1rem;"
+    onmouseover="this.style.backgroundColor='#0099d4'; this.style.borderColor='#0099d4'; this.style.transform='translateY(-1px)';"
+    onmouseout="this.style.backgroundColor='var(--accent, #00aeef)'; this.style.borderColor='var(--accent, #00aeef)'; this.style.transform='translateY(0)';"
+    onfocus="this.style.outline='2px solid var(--accent, #00aeef)'; this.style.outlineOffset='4px';"
+    onblur="this.style.outline='none';">
+    Send Message
+  </button>
+
+  <p id="form-status" style="color:#9CA3AF; margin-top:.5rem;" role="status" aria-live="polite"></p>
+</form>
+
 
     <div style="text-align: center; margin-top: 2rem; padding-top: 2rem; border-top: 1px solid #374151;">
       <p style="color: #9CA3AF; font-size: 0.875rem; margin: 0 0 1rem 0;">
@@ -468,7 +505,9 @@
 <footer class="site-footer">
   <div class="container">
     <div class="brand">
-      <img src="assets/Logo.svg" alt="Your Company Logo" width="72" height="72">
+      <!-- footer -->
+<img src="assets/Logo.svg" alt="Optivium logo" class="footer-logo">
+
     </div>
     <p class="tagline">
       Smarter operations, stronger outcomes.
