@@ -75,17 +75,6 @@ class BinaryRain {
     this.ctx.textBaseline = 'top';
   }
 
-<script>
-const logo = document.getElementById('logo');
-const onScroll = () => {
-  const top = logo.getBoundingClientRect().top;
-  const trigger = window.innerHeight * 0.85; // when logo nears view
-  document.body.classList.toggle('bright', top <= trigger);
-};
-window.addEventListener('scroll', onScroll, {passive:true});
-window.addEventListener('load', onScroll);
-</script>
-
   attachEvents() {
     window.addEventListener('resize', () => {
       this.setupCanvas();
