@@ -64,9 +64,12 @@ class BinaryRain {
   }
 
   setupCanvas() {
-    const dpr = window.devicePixelRatio || 1;   // classic: no DPR cap
+    
     const w = this.canvas.clientWidth;
     const h = this.canvas.clientHeight;
+    // in setupCanvas()
+    const dpr = Math.min(window.devicePixelRatio || 1, 1.5);
+
 
     this.ctx.setTransform(1, 0, 0, 1, 0, 0);
     this.canvas.width  = Math.floor(w * dpr);
@@ -109,7 +112,7 @@ class BinaryRain {
 
     // Fade earlier so it never overlaps the hologram
     const TRIGGER = 0.85; // % of viewport height
-    const triggerY = logoTop - window.innerHeight * TRIGGER - 80; // extra padding
+    const triggerY = logoTop - window.innerHeight * TRIGGER - 75; // extra padding
 
     wrapper.style.opacity = (y >= triggerY) ? '0' : '1';
   }
@@ -191,7 +194,7 @@ class BinaryRain {
     if (this._typedStarted || !this.edgeEl) return;
     this._typedStarted = true;
 
-    const beforeText = "AI isnt your enemy; its your ";
+    const beforeText = "AI isn't your enemy; it's your ";
     const edgeWord   = "edge";
     typeWriter(this.edgeEl, beforeText, edgeWord, { charDelay: 95 }); // your preferred slower type
   }

@@ -410,22 +410,52 @@ a:focus-visible,button:focus-visible,input:focus-visible,textarea:focus-visible{
   }
 }
 
-.site-footer .brand{ position:relative; display:grid; place-items:center; }
-
-.site-footer .footer-logo{
-  width: 204px;             /* your logo width */
-  height:auto;
-  position:relative; z-index:1;
+.site-footer{
+  border-top:1px solid #374151;   /* same border as cards */
+  background:#1A1C1E;             /* match page bg */
+}
+.site-footer .container{
+  max-width:72rem;
+  margin:0 auto;
+  padding:2.5rem 1rem;
+  text-align:center;
+}
+.site-footer .brand{
+  position:relative;
+  display:grid;
+  place-items:center;             /* centers the logo over the ellipse */
 }
 
+/* Logo */
+.site-footer .footer-logo{
+  width:204px;                    /* displayed size; adjust if you want */
+  height:auto;
+  position:relative;
+  z-index:1;
+  display:block;
+}
+
+/* White ellipse behind the logo */
 .site-footer .brand::before{
   content:"";
-  position:absolute; left:50%; top:50%;
-  transform: translate(-50%, -49%);  /* nudge up/down if needed */
-  width: 200px;                       /* match logo width */
-  height: 90px;                      /* tweak until it hugs the oval */
+  position:absolute;
+  left:50%; top:50%;
+  transform: translate(-50%, -49%); /* slight vertical nudge like before */
+  width:200px;                      /* tweak to hug your logo */
+  height:90px;
   background:#fff;
-  border-radius: 50% / 50%;           /* true ellipse (not a pill) */
-  box-shadow: 0 12px 36px rgba(0,0,0,.25);
+  border-radius:50% / 50%;          /* true ellipse */
+  box-shadow:0 12px 36px rgba(0,0,0,.25);
   z-index:0;
+}
+
+/* Text */
+.site-footer .tagline{
+  margin:.6rem 0 0;
+  color:#9CA3AF;
+}
+.site-footer .copy{
+  margin:1.2rem 0 0;
+  color:#9CA3AF;
+  font-size:.9rem;
 }
