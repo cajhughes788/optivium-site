@@ -1,5 +1,5 @@
 // === Typewriter helper (glow "edge") — classic behavior ===
-function typeWriter(el, beforeText, edgeWord, { charDelay = 95 } = {}) {
+function typeWriter(el, beforeText, edgeWord, { charDelay = 90 } = {}) {
   if (!el) return;
   el.textContent = '';
   el.style.opacity = 1;
@@ -64,9 +64,12 @@ class BinaryRain {
   }
 
   setupCanvas() {
-    const dpr = window.devicePixelRatio || 1;   // classic: no DPR cap
+    
     const w = this.canvas.clientWidth;
     const h = this.canvas.clientHeight;
+    // in setupCanvas()
+    const dpr = Math.min(window.devicePixelRatio || 1, 1.5);
+
 
     this.ctx.setTransform(1, 0, 0, 1, 0, 0);
     this.canvas.width  = Math.floor(w * dpr);
@@ -109,7 +112,7 @@ class BinaryRain {
 
     // Fade earlier so it never overlaps the hologram
     const TRIGGER = 0.85; // % of viewport height
-    const triggerY = logoTop - window.innerHeight * TRIGGER - 80; // extra padding
+    const triggerY = logoTop - window.innerHeight * TRIGGER - 75; // extra padding
 
     wrapper.style.opacity = (y >= triggerY) ? '0' : '1';
   }
@@ -150,7 +153,7 @@ class BinaryRain {
     const width = this.canvas.clientWidth;
     const height = this.canvas.clientHeight;
     const density = 25; // classic density (lower = denser)
-    const dropCount = Math.max(12, Math.floor(width / density));
+    const dropCount = Math.max(15, Math.floor(width / density));
     for (let i = 0; i < dropCount; i++) {
       this.drops.push(this.makeDrop(width, height));
     }
@@ -165,7 +168,7 @@ class BinaryRain {
     return {
       x: Math.random() * width,
       y: Math.random() * -height,
-      speed: Math.random() * 2 + 1,    // 1–3 px/frame (classic)
+      speed: Math.random() * 4 + 3,    // 1–3 px/frame (classic)
       characters,
       updateFrequency: Math.floor(Math.random() * 10) + 5,
       lastUpdate: 0
@@ -191,7 +194,7 @@ class BinaryRain {
     if (this._typedStarted || !this.edgeEl) return;
     this._typedStarted = true;
 
-    const beforeText = "AI isnt your enemy; its your ";
+    const beforeText = "AI isn't your enemy; it's your ";
     const edgeWord   = "edge";
     typeWriter(this.edgeEl, beforeText, edgeWord, { charDelay: 95 }); // your preferred slower type
   }
