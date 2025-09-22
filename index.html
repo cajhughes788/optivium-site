@@ -478,88 +478,98 @@
           </p>
         </header>
 
-        <form id="contact-form"
-              action="https://formsubmit.co/0403hughescaj@gmail.com"
-              method="POST"
-              style="display: flex; flex-direction: column; gap: 1.5rem;">
-          <!-- spam honeypot -->
-          <input type="text" name="_honey" style="display:none">
+        <form
+  id="contact-form"
+  action="https://formsubmit.co/0403hughescaj@gmail.com"
+  method="POST"
+  style="display:flex; flex-direction:column; gap:1.5rem;"
+  onsubmit="this.querySelector('button[type=submit]').disabled=true; this.querySelector('button[type=submit]').textContent='Sending…';"
+>
+  <!-- spam honeypot -->
+  <input type="text" name="_honey" style="display:none">
 
-          <!-- options -->
-          <input type="hidden" name="_subject" value="New message from Optivium site">
-          <input type="hidden" name="_captcha" value="false">
+  <!-- FormSubmit options -->
+  <input type="hidden" name="_subject" value="New message from Optivium site">
+  <input type="hidden" name="_captcha" value="false">
+  <input type="hidden" name="_template" value="table">
+  <input type="hidden" name="_next" value="https://optiviumai.com/thanks.html">
 
-          <div style="display: flex; flex-direction: column; gap: 0.5rem;">
-            <label for="name" style="font-weight: 500; color: #E5E7EB; font-size: 0.875rem;">
-              Name *
-            </label>
-            <input 
-              type="text" 
-              id="name" 
-              name="name" 
-              required
-              style="background-color: #262626; color: #E5E7EB; border: 1px solid #374151; border-radius: 8px; padding: 0.875rem 1rem; font-size: 1rem; transition: all 0.2s ease;"
-              onfocus="this.style.borderColor='var(--accent, #00aeef)'; this.style.boxShadow='0 0 0 2px rgba(0, 174, 239, 0.1)'; this.style.outline='2px solid var(--accent, #00aeef)'; this.style.outlineOffset='2px';"
-              onblur="this.style.borderColor='#374151'; this.style.boxShadow='none'; this.style.outline='none';"
-              placeholder="Your full name">
-          </div>
+  <div style="display:flex; flex-direction:column; gap:.5rem;">
+    <label for="name" style="font-weight:500; color:#E5E7EB; font-size:.875rem;">Name *</label>
+    <input
+      type="text"
+      id="name"
+      name="name"
+      required
+      minlength="2"
+      autocomplete="name"
+      style="background-color:#262626; color:#E5E7EB; border:1px solid #374151; border-radius:8px; padding:.875rem 1rem; font-size:1rem; transition:all .2s ease;"
+      onfocus="this.style.borderColor='var(--accent, #00aeef)'; this.style.boxShadow='0 0 0 2px rgba(0, 174, 239, 0.1)'; this.style.outline='2px solid var(--accent, #00aeef)'; this.style.outlineOffset='2px';"
+      onblur="this.style.borderColor='#374151'; this.style.boxShadow='none'; this.style.outline='none';"
+      placeholder="Your full name"
+    >
+  </div>
 
-          <div style="display: flex; flex-direction: column; gap: 0.5rem;">
-            <label for="email" style="font-weight: 500; color: #E5E7EB; font-size: 0.875rem;">
-              Email *
-            </label>
-            <input 
-              type="email" 
-              id="email" 
-              name="email" 
-              required
-              style="background-color: #262626; color: #E5E7EB; border: 1px solid #374151; border-radius: 8px; padding: 0.875rem 1rem; font-size: 1rem; transition: all 0.2s ease;"
-              onfocus="this.style.borderColor='var(--accent, #00aeef)'; this.style.boxShadow='0 0 0 2px rgba(0, 174, 239, 0.1)'; this.style.outline='2px solid var(--accent, #00aeef)'; this.style.outlineOffset='2px';"
-              onblur="this.style.borderColor='#374151'; this.style.boxShadow='none'; this.style.outline='none';"
-              placeholder="your@email.com">
-          </div>
+  <div style="display:flex; flex-direction:column; gap:.5rem;">
+    <label for="email" style="font-weight:500; color:#E5E7EB; font-size:.875rem;">Email *</label>
+    <input
+      type="email"
+      id="email"
+      name="email"
+      required
+      autocomplete="email"
+      inputmode="email"
+      style="background-color:#262626; color:#E5E7EB; border:1px solid #374151; border-radius:8px; padding:.875rem 1rem; font-size:1rem; transition:all .2s ease;"
+      onfocus="this.style.borderColor='var(--accent, #00aeef)'; this.style.boxShadow='0 0 0 2px rgba(0, 174, 239, 0.1)'; this.style.outline='2px solid var(--accent, #00aeef)'; this.style.outlineOffset='2px';"
+      onblur="this.style.borderColor='#374151'; this.style.boxShadow='none'; this.style.outline='none';"
+      placeholder="your@email.com"
+    >
+  </div>
 
-          <div style="display: flex; flex-direction: column; gap: 0.5rem;">
-            <label for="company" style="font-weight: 500; color: #E5E7EB; font-size: 0.875rem;">
-              Company
-            </label>
-            <input 
-              type="text" 
-              id="company" 
-              name="company"
-              style="background-color: #262626; color: #E5E7EB; border: 1px solid #374151; border-radius: 8px; padding: 0.875rem 1rem; font-size: 1rem; transition: all 0.2s ease;"
-              onfocus="this.style.borderColor='var(--accent, #00aeef)'; this.style.boxShadow='0 0 0 2px rgba(0, 174, 239, 0.1)'; this.style.outline='2px solid var(--accent, #00aeef)'; this.style.outlineOffset='2px';"
-              onblur="this.style.borderColor='#374151'; this.style.boxShadow='none'; this.style.outline='none';"
-              placeholder="Your company name">
-          </div>
+  <div style="display:flex; flex-direction:column; gap:.5rem;">
+    <label for="company" style="font-weight:500; color:#E5E7EB; font-size:.875rem;">Company</label>
+    <input
+      type="text"
+      id="company"
+      name="company"
+      autocomplete="organization"
+      style="background-color:#262626; color:#E5E7EB; border:1px solid #374151; border-radius:8px; padding:.875rem 1rem; font-size:1rem; transition:all .2s ease;"
+      onfocus="this.style.borderColor='var(--accent, #00aeef)'; this.style.boxShadow='0 0 0 2px rgba(0, 174, 239, 0.1)'; this.style.outline='2px solid var(--accent, #00aeef)'; this.style.outlineOffset='2px';"
+      onblur="this.style.borderColor='#374151'; this.style.boxShadow='none'; this.style.outline='none';"
+      placeholder="Your company name"
+    >
+  </div>
 
-          <div style="display: flex; flex-direction: column; gap: 0.5rem;">
-            <label for="message" style="font-weight: 500; color: #E5E7EB; font-size: 0.875rem;">
-              Message *
-            </label>
-            <textarea 
-              id="message" 
-              name="message" 
-              required
-              rows="5"
-              style="background-color: #262626; color: #E5E7EB; border: 1px solid #374151; border-radius: 8px; padding: 0.875rem 1rem; font-size: 1rem; transition: all 0.2s ease; resize: vertical; font-family: inherit;"
-              onfocus="this.style.borderColor='var(--accent, #00aeef)'; this.style.boxShadow='0 0 0 2px rgba(0, 174, 239, 0.1)'; this.style.outline='2px solid var(--accent, #00aeef)'; this.style.outlineOffset='2px';"
-              onblur="this.style.borderColor='#374151'; this.style.boxShadow='none'; this.style.outline='none';"
-              placeholder="Tell us about your business and what you'd like to automate..."></textarea>
-          </div>
+  <div style="display:flex; flex-direction:column; gap:.5rem;">
+    <label for="message" style="font-weight:500; color:#E5E7EB; font-size:.875rem;">Message *</label>
+    <textarea
+      id="message"
+      name="message"
+      required
+      minlength="10"
+      rows="5"
+      style="background-color:#262626; color:#E5E7EB; border:1px solid #374151; border-radius:8px; padding:.875rem 1rem; font-size:1rem; transition:all .2s ease; resize:vertical; font-family:inherit;"
+      onfocus="this.style.borderColor='var(--accent, #00aeef)'; this.style.boxShadow='0 0 0 2px rgba(0, 174, 239, 0.1)'; this.style.outline='2px solid var(--accent, #00aeef)'; this.style.outlineOffset='2px';"
+      onblur="this.style.borderColor='#374151'; this.style.boxShadow='none'; this.style.outline='none';"
+      placeholder="Tell us about your business and what you'd like to automate..."
+    ></textarea>
+  </div>
 
-          <button 
-            type="submit"
-            style="background-color: var(--accent, #00aeef); color: white; border: 2px solid var(--accent, #00aeef); border-radius: 8px; padding: 1rem 2rem; font-size: 1.125rem; font-weight: 600; cursor: pointer; transition: all 0.2s ease; margin-top: 1rem;"
-            onmouseover="this.style.backgroundColor='#0099d4'; this.style.borderColor='#0099d4'; this.style.transform='translateY(-1px)';"
-            onmouseout="this.style.backgroundColor='var(--accent, #00aeef)'; this.style.borderColor='var(--accent, #00aeef)'; this.style.transform='translateY(0)';"
-            onfocus="this.style.outline='2px solid var(--accent, #00aeef)'; this.style.outlineOffset='4px';"
-            onblur="this.style.outline='none';">
-            Send Message
-          </button>
+  <button
+    type="submit"
+    style="background-color:var(--accent, #00aeef); color:#fff; border:2px solid var(--accent, #00aeef); border-radius:8px; padding:1rem 2rem; font-size:1.125rem; font-weight:600; cursor:pointer; transition:all .2s ease; margin-top:1rem;"
+    onmouseover="this.style.backgroundColor='#0099d4'; this.style.borderColor='#0099d4'; this.style.transform='translateY(-1px)';"
+    onmouseout="this.style.backgroundColor='var(--accent, #00aeef)'; this.style.borderColor='var(--accent, #00aeef)'; this.style.transform='translateY(0)';"
+    onfocus="this.style.outline='2px solid var(--accent, #00aeef)'; this.style.outlineOffset='4px';"
+    onblur="this.style.outline='none';"
+  >
+    Send Message
+  </button>
 
-          <p id="form-status" style="color:#9CA3AF; margin-top:.5rem;" role="status" aria-live="polite"></p>
-        </form>
+  <!-- This will be ignored on success because of redirect, but harmless -->
+  <p id="form-status" style="color:#9CA3AF; margin-top:.5rem;" role="status" aria-live="polite"></p>
+</form>
+
 
         <!--
         <div style="text-align: center; margin-top: 2rem; padding-top: 2rem; border-top: 1px solid #374151;">
@@ -609,32 +619,6 @@
   <script>
     document.getElementById('year').textContent = new Date().getFullYear();
   </script>
-
-  <!-- Contact form handler (kept) -->
-  <script>
-  document.addEventListener('DOMContentLoaded', () => {
-    const form = document.getElementById('contact-form');
-    const statusEl = document.getElementById('form-status');
-    if (!form || !statusEl) return; // guard
-
-    form.addEventListener('submit', async (e) => {
-      e.preventDefault();
-      statusEl.textContent = 'Sending...';
-      try {
-        const res = await fetch(form.action, {
-          method: 'POST',
-          body: new FormData(form),
-          headers: { 'Accept': 'application/json' }
-        });
-        if (res.ok) { statusEl.textContent = 'Message sent ✅'; form.reset(); }
-        else        { statusEl.textContent = 'Error—please try again.'; }
-      } catch {
-        statusEl.textContent = 'Network error—try again.';
-      }
-    });
-  });
-  </script>
-
 </body>
 </html>
 
