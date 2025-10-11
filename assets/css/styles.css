@@ -459,3 +459,175 @@ a:focus-visible,button:focus-visible,input:focus-visible,textarea:focus-visible{
   color:#9CA3AF;
   font-size:.9rem;
 }
+.about-section {
+  max-width: 800px;
+  margin: 60px auto;
+  padding: 20px;
+  line-height: 1.6;
+}
+
+.about-section h1 {
+  font-size: 2em;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.about-section ul {
+  list-style-type: disc;
+  margin-left: 40px;
+}
+
+.about-section li {
+  margin-bottom: 10px;
+}
+
+/* === About Page Styling === */
+body.about-page {
+  background-color: #000;
+  /* solid black background */
+  color: #fff;
+  /* pure white text */
+  font-family: "Times New Roman", Times, serif;
+  font-size: 12pt;
+  line-height: 1.7;
+}
+
+.about-page .about-section h1,
+.about-page .about-section h2 {
+  color: #fff;
+  /* ensure headings stay white */
+}
+
+.about-page a {
+  color: var(--accent, #00aeef);
+  text-decoration: none;
+}
+
+.about-page a:hover {
+  color: var(--accent-hover, #0099d4);
+  text-decoration: underline;
+}
+/* === About Page Back Button === */
+.about-page .back-home-btn {
+  color: #fff;
+  /* white text */
+  border: 2px solid #fff;
+  /* white border */
+  border-radius: 8px;
+  padding: 0.75rem 1.75rem;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 1.125rem;
+  display: inline-block;
+  transition: all 0.25s ease;
+}
+
+.about-page .back-home-btn:hover {
+  color: var(--accent, #00aeef);
+  /* blue text */
+  border-color: var(--accent, #00aeef);
+  /* blue border */
+  text-decoration: none;
+  transform: translateY(-1px);
+}
+
+.about-page .back-home-btn:focus-visible {
+  outline: 2px solid var(--accent, #00aeef);
+  outline-offset: 3px;
+}
+/* === About Page Enhancements === */
+.about-section {
+  max-width: 850px;
+  margin: 80px auto;
+  padding: 50px;
+  line-height: 1.8;
+  font-size: 1.15rem;
+  /* slightly bigger text */
+  border: 2px solid var(--accent, #00aeef);
+  border-radius: 16px;
+  box-shadow: 0 0 25px rgba(0, 174, 239, 0.45);
+  background-color: rgba(0, 0, 0, 0.7);
+  font-family: "Times New Roman", Times, serif;
+  font-weight: 400;
+}
+
+/* Blue title */
+.about-section h1 {
+  font-size: 2.2em;
+  margin-bottom: 1.5rem;
+  text-align: center;
+  color: var(--accent, #00aeef);
+  text-shadow: 0 0 16px rgba(0, 174, 239, 0.7);
+  font-weight: 600;
+  text-transform: uppercase;
+  /* makes ABOUT ME all caps */
+  letter-spacing: 0.03em;
+  /* adds subtle spacing for elegance */
+}
+
+/* Regular paragraph text */
+.about-section p {
+  font-size: 1.15rem;
+  color: #e5e7eb;
+  margin-bottom: 1.4rem;
+  font-weight: 400;
+}
+
+/* Remove bold inside strong */
+.about-section strong {
+  font-weight: 400;
+  color: inherit;
+}
+
+/* Collapsible (details) styling */
+.about-section details.certs {
+  background-color: #111;
+  border: 1px solid var(--accent, #00aeef);
+  border-radius: 10px;
+  padding: 1.25rem 1.5rem;
+  margin-top: 2rem;
+  transition: all 0.3s ease;
+  font-size: 1.1rem;
+}
+
+/* Collapsible summary line */
+.about-section details.certs summary {
+  cursor: pointer;
+  font-weight: 500;
+  color: var(--accent, #00aeef);
+  font-size: 1.4rem;
+  list-style: none;
+  user-select: none;
+}
+
+/* Add disclosure triangle */
+.about-section details.certs summary::marker,
+.about-section details.certs summary::-webkit-details-marker {
+  color: var(--accent, #00aeef);
+}
+
+/* When open */
+.about-section details.certs[open] summary {
+  color: #fff;
+  text-shadow: 0 0 10px rgba(0, 174, 239, 0.6);
+}
+
+/* Inside list */
+.about-section details.certs ul {
+  list-style-type: disc;
+  margin-left: 2rem;
+  margin-top: 1rem;
+}
+
+.about-section details.certs li {
+  color: #e5e7eb;
+  margin-bottom: 0.7rem;
+  font-size: 1.05rem;
+  font-weight: 400;
+}
+
+/* Hover glow frame */
+.about-section:hover {
+  box-shadow: 0 0 35px rgba(0, 174, 239, 0.55);
+  transition: box-shadow 0.4s ease;
+}
